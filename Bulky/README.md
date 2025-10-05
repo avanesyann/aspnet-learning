@@ -40,3 +40,24 @@ Instead of a class creating the objects (dependencies) it needs by itself, those
 `        _emailService = emailService;`
 `    }`
 `}`
+
+
+
+## Entity Framework
+
+Entitiy Framework is an Object-Relational Mapper (ORM) for .NET.
+It allows you to **interact with a database using C# objects**, instead of writing SQL queries manually.
+
+Normally, to get data from a database, we'd write SQL:
+`SELECT * FROM Products WHERE Id = 1;`
+
+Then we'd manually convert the result into a Product object.
+
+With **Entity Framework**, we just write:
+`var product = context.Products.FirstOrDefault(p => p.Id == 1);`
+
+EF automatically:
+- Builds the SQL query
+- Sends it to the database
+- Converts the result into a Product object
+- Tracks changes so you can later SaveChanges() to update the database
