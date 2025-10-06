@@ -18,3 +18,13 @@
 **In short:**
 
 We put an underscore **by convention** to show “this is not a standalone page, but a helper/shared file.”
+
+
+
+## Creating Tables
+
+Anything to do with the database is inside `Data\ApplicationDbContext.cs`
+
+To create a table we create a property of type `DbSet` and do a migration (add-migration).
+After the migration we type `update-database` so that the entity core will check if there are any migrations that have not been applied.
+(EF keeps track of added migrations in the `__EFMigrationsHistory` table)
