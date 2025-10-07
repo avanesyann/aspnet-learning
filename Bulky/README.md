@@ -17,30 +17,30 @@ It means:
 Instead of a class creating the objects (dependencies) it needs by itself, those objects are provided ("injected") from the outside - usually by a DI container.
 
 - The Problem Without DI
+```
+public class HomeController : Controller
+{
+    private readonly EmailService _emailService;
 
-`public class HomeController : Controller`
-`{`
-`    private readonly EmailService _emailService;`
-
-`    public HomeController()`
-`    {`
-`        _emailService = new EmailService(); // tightly coupled`
-`    }`
-`}`
-
+    public HomeController()
+    {
+        _emailService = new EmailService(); // tightly coupled
+    }
+}
+```
 
 - The Solution
+```
+public class HomeController : Controller
+{
+    private readonly IEmailService _emailService;
 
-`public class HomeController : Controller`
-`{`
-`    private readonly IEmailService _emailService;`
-
-`    public HomeController(IEmailService emailService) // dependency is injected`
-`    {`
-`        _emailService = emailService;`
-`    }`
-`}`
-
+    public HomeController(IEmailService emailService) // dependency is injected
+    {
+        _emailService = emailService;
+    }
+}
+```
 
 
 ## Entity Framework
