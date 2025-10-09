@@ -31,6 +31,8 @@ After the migration we type `update-database` so that the entity core will check
 
 **Whenever anything has to be updated in a database we add a migration.**
 
+*`SaveChanges()` sends all pending changes (inserts, updates, deletes) to the database.*
+
 
 
 ## Seeding
