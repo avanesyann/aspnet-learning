@@ -19,6 +19,8 @@
 
 We put an underscore **by convention** to show “this is not a standalone page, but a helper/shared file.”
 
+*The default location for any partial view is the `Shared` folder.*
+
 
 
 ## Creating Tables

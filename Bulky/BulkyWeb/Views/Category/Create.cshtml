@@ -12,7 +12,7 @@
 
             <hr />
         </div>
-        <div asp-validation-summary="All"></div>
+        @* <div asp-validation-summary="ModelOnly"></div> *@
         <div class="mb-3 row p-1">
             <label asp-for="Name" class="text-secondary p-0"></label>
             <input asp-for="Name" type="text" class="form-control" />
@@ -27,3 +27,10 @@
         <button type="submit" class="btn btn-dark" style="width: 150px;">Create</button>
     </div>
 </form>
+
+@section Scripts
+{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
