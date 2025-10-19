@@ -1,12 +1,5 @@
 ﻿@model IEnumerable<Category>
-
-@if (TempData["success"] != null)
-{
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        @TempData["success"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-}
+<partial name="_Notification" />
 
 <div class="container">
     <div class="row pt-4">
@@ -56,14 +49,3 @@
     </table>
 
 </div>
-
-
-<script>
-    setTimeout(() => {
-        const alert = document.querySelector('.alert');
-        if (alert) {
-            const bsAlert = new bootstrap.Alert(alert);
-            bsAlert.close();
-        }
-    }, 3000);
-</script>
