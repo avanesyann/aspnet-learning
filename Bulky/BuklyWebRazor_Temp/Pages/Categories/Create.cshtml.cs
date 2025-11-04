@@ -8,6 +8,7 @@ namespace BuklyWebRazor_Temp.Pages.Categories
     public class CreateModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        [BindProperty]      // no need to create a parameter for OnPost()
         public Category Category { get; set; }
 
         public CreateModel(ApplicationDbContext context)
@@ -16,6 +17,13 @@ namespace BuklyWebRazor_Temp.Pages.Categories
         }
         public void OnGet()
         {
+        }
+        public IActionResult OnPost()
+        {
+            _context.Categories.Add(Category);
+            _context.SaveChanges();
+
+            return RedirectToPage("/Categories/Index");
         }
     }
 }
