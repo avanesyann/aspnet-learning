@@ -1,12 +1,39 @@
+using BuklyWebRazor_Temp.Data;
+using BulkyWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BuklyWebRazor_Temp.Pages.Categories
 {
+
+    [BindProperties]
     public class DeleteModel : PageModel
     {
-        public void OnGet()
+        private readonly ApplicationDbContext _context;
+        public Category Category { get; set; }
+
+        public DeleteModel(ApplicationDbContext context)
         {
+            _context = context;
+        }
+        public void OnGet(int? id)
+        {
+            if (id != null || id != 0)
+            {
+                Category = _context.Categories.Find(id);
+            }
+        }
+        public IActionResult OnPost()
+        {
+            Category? obj = _context.Categories.Find(Category.Id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            _context.Categories.Remove(obj);
+            _context.SaveChanges();
+
+            return RedirectToPage("Index");
         }
     }
 }
