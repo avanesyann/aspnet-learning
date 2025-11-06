@@ -22,6 +22,7 @@ namespace BuklyWebRazor_Temp.Pages.Categories
         {
             _context.Categories.Add(Category);
             _context.SaveChanges();
+            TempData["success"] = "Category created successfully!";
 
             return RedirectToPage("/Categories/Index");
         }

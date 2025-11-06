@@ -28,6 +28,8 @@ namespace BuklyWebRazor_Temp.Pages.Categories
             {
                 _context.Categories.Update(Category);
                 _context.SaveChanges();
+                TempData["success"] = "Category edited successfully!";
+
                 return RedirectToPage("Index");
             }
             return Page();

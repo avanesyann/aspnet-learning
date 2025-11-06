@@ -32,6 +32,7 @@ namespace BuklyWebRazor_Temp.Pages.Categories
             }
             _context.Categories.Remove(obj);
             _context.SaveChanges();
+            TempData["success"] = "Category deleted successfully!";
 
             return RedirectToPage("Index");
         }
