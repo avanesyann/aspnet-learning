@@ -1,0 +1,23 @@
+﻿@model List<Note>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>
+                Category Name
+            </th>
+            <th>
+                Display Order
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var note in Model.OrderBy(o => o.CreatedAt))
+        {
+            <tr>
+                <td>@note.Title</td>
+                <td>@note.Content</td>
+            </tr>
+        }
+    </tbody>
+</table>

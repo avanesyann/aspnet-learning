@@ -12,8 +12,8 @@ using NotesApp.Data;
 namespace NotesApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251114191459_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20251114195108_SeedData")]
+    partial class SeedData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,6 +47,22 @@ namespace NotesApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Notes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Content = "This is this app's first note.",
+                            CreatedAt = new DateTime(2025, 11, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "First Note"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Content = "This is some other note created while seeding data.",
+                            CreatedAt = new DateTime(2025, 11, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Some other note"
+                        });
                 });
 #pragma warning restore 612, 618
         }

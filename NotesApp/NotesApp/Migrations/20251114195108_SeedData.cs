@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace NotesApp.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class SeedData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -24,6 +26,15 @@ namespace NotesApp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Notes", x => x.Id);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Notes",
+                columns: new[] { "Id", "Content", "CreatedAt", "Title" },
+                values: new object[,]
+                {
+                    { 1, "This is this app's first note.", new DateTime(2025, 11, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), "First Note" },
+                    { 2, "This is some other note created while seeding data.", new DateTime(2025, 11, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), "Some other note" }
                 });
         }
 

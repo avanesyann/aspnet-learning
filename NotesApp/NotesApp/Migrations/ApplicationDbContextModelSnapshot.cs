@@ -44,6 +44,22 @@ namespace NotesApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Notes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Content = "This is this app's first note.",
+                            CreatedAt = new DateTime(2025, 11, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "First Note"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Content = "This is some other note created while seeding data.",
+                            CreatedAt = new DateTime(2025, 11, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Some other note"
+                        });
                 });
 #pragma warning restore 612, 618
         }
