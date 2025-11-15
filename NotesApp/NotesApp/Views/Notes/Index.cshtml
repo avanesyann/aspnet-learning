@@ -1,5 +1,18 @@
 ﻿@model List<Note>
 
+<div class="row pt-4">
+    <div class="col-6">
+        <h2 class="text-dark">
+            Notes
+        </h2>
+    </div>
+    <div class="col-6 text-end">
+        <a asp-controller="Notes" asp-action="Create" class="btn btn-dark"><i class="bi bi-plus-circle"></i>&nbsp; Create a note</a>
+    </div>
+</div>
+
+<hr class="pb-2" />
+
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
