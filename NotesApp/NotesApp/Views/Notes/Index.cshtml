@@ -30,6 +30,16 @@
             <tr>
                 <td>@note.Title</td>
                 <td>@note.Content</td>
+                <td>
+                    <div class="w-75 btn-group" role="group">
+                        <a asp-controller="Notes" asp-action="Edit" asp-route-id="@note.Id" class="btn btn-dark mx-2">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <a asp-controller="Notes" asp-action="Delete" asp-route-id="@note.Id" class="btn btn-outline-danger mx-2">
+                            <i class="bi bi-trash3"></i>
+                        </a>
+                    </div>
+                </td>
             </tr>
         }
     </tbody>

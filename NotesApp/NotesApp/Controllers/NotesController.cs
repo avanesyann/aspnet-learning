@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.ComponentModel;
+using Microsoft.AspNetCore.Mvc;
 using NotesApp.Data;
 using NotesApp.Models;
 
@@ -32,6 +33,32 @@ namespace NotesApp.Controllers
                 return RedirectToAction("Index");
             }
             return View(note);
+        }
+
+        public IActionResult Edit(int id)
+        {
+            if (id == null || id == 0)
+                return NotFound();
+
+            Note? note = _context.Notes.Find(id);
+
+            if (note == null)
+                return NotFound();
+
+            return View(note);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Note note)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Notes.Update(note);
+                _context.SaveChanges();
+                return RedirectToAction("Index", "Notes");
+            }
+
+            return View();
         }
     }
 }
