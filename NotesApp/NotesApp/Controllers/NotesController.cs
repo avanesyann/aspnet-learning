@@ -60,5 +60,34 @@ namespace NotesApp.Controllers
 
             return View();
         }
+
+        public IActionResult Delete(int id)
+        {
+            if (id == null || id == 0)
+                return NotFound();
+
+            Note? note = _context.Notes.Find(id);
+
+            if (note == null)
+                return NotFound();
+
+            return View(note);
+        }
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeletePOST(int id)
+        {
+            if (id == 0 || id == null)
+                return NotFound();
+
+            Note? note = _context.Notes.Find(id);
+
+            if (note == null)
+                return NotFound();
+
+            _context.Notes.Remove(note);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Notes");
+        }
     }
 }
