@@ -74,3 +74,5 @@ Now, open the Package Manager Console and run:
 
 
 EF Core will detect the new seed data and insert it into your Categories table automatically.
+
+**Migrations generate the code that create the database.**
