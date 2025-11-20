@@ -1,4 +1,6 @@
 using FinShark.Data;
+using FinShark.Dtos;
+using FinShark.Mappers;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
