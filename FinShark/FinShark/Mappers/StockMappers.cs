@@ -16,5 +16,18 @@ namespace FinShark.Mappers
                 MarketCap = stockModel.MarketCap,
             };
         }
+
+        public static Stock ToStockFromCreateDto(this CreateStockRequestDto createStockRequestDto)
+        {
+            return new Stock
+            {
+                Symbol = createStockRequestDto.Symbol,
+                CompanyName = createStockRequestDto.CompanyName,
+                Purchase = createStockRequestDto.Purchase,
+                LastDividend = createStockRequestDto.LastDividend,
+                Industry = createStockRequestDto.Industry,
+                MarketCap = createStockRequestDto.MarketCap,
+            };
+        }
     }
 }
