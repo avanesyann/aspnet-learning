@@ -38,3 +38,16 @@ Example JSON from `/api/videos/1`
 ## Routing
 
 Routing is the process of matching incoming HTTPS requests to appropriate action methods that handle those requests.
+
+
+## DbContext
+
+DbContext class is a class that represents a session with the database and provides a set of APIs for performing database operations.
+It is responsible for maintaining a connection to the database, tracking changes to the data and performing crud operations (Create, Update, Delete, etc.).
+
+In short, the DbContext class is a bridge between the domain models and the database.
+
+
+## DbSet
+
+A DbSet is a property of DbContext class that represents a collection of entities in the database.
