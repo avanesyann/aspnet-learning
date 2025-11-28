@@ -73,4 +73,24 @@ Problems:
 
 #### Good (using DTO)
 
-`public IActionResult CreateVideo(VideoCreateDto dto)
+`public IActionResult CreateVideo(VideoCreateDto dto)`
+
+Example DTO:
+```
+public class VideoCreateDto
+{
+    public string Title { get; set; }
+    public List<string> Tags { get; set; }
+}
+```
+
+Database entity stays internal:
+```
+public class Video
+{
+    public int Id { get; set; }
+    public string Title { get; set; }
+    public List<string> Tags { get; set; }
+    public DateTime CreatedAt { get; set; }
+}
+```
