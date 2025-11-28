@@ -51,3 +51,26 @@ In short, the DbContext class is a bridge between the domain models and the data
 ## DbSet
 
 A DbSet is a property of DbContext class that represents a collection of entities in the database.
+
+
+## DTO
+
+A Data Transfer Object is a simple C# class used to send data to the client or receive data from the client.
+
+Think of them as **shaped data** - a safe and clean version of your database model.
+
+### Why do we need them?
+
+Because we NEVER want to expose our database models (entities) directly.
+
+#### Bad (no DTO)
+
+`public IActionResult CreateVideo(Video video)`
+
+Problems:
+- You expose all fields (including ones the client shouldn't change, like Id, CreatedAt, etc.)
+- Security issues
+
+#### Good (using DTO)
+
+`public IActionResult CreateVideo(VideoCreateDto dto)
