@@ -91,5 +91,35 @@ namespace NZWalks.API.Controllers
 
             return CreatedAtAction(nameof(GetById), new { id = readDto.Id }, readDto);
         }
+
+        [HttpPut]
+        [Route("{id:Guid}")]
+        public IActionResult Update([FromRoute] Guid id, [FromBody] RegionUpdateDto regionUpdateDto)
+        {
+            // Check if region exists
+            // On the line below, EF retrieves the entity from the db and starts automatically tracking it, so no need for Update().
+            var regionDomainModel = _context.Regions.Find(id);
+
+            if (regionDomainModel == null)
+                return NotFound();
+
+            // Map DTO to Domain model
+            regionDomainModel.Code = regionUpdateDto.Code;
+            regionDomainModel.Name = regionUpdateDto.Name;
+            regionDomainModel.ImageUrl = regionUpdateDto.ImageUrl;
+
+            _context.SaveChanges();
+
+            // Convert Domain model to DTO
+            var regionDtoModel = new RegionReadDto
+            {
+                Id = regionDomainModel.Id,
+                Code = regionUpdateDto.Code,
+                Name = regionUpdateDto.Name,
+                ImageUrl = regionUpdateDto.ImageUrl,
+            };
+
+            return Ok(regionDtoModel);
+        }
     }
 }
