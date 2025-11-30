@@ -26,11 +26,12 @@ namespace NZWalks.API.Controllers
             var regionsDomain = _context.Regions.ToList();
 
             // Map domain models to DTOs
-            var regionsDto = new List<RegionDto>();
+            var regionsDto = new List<RegionReadDto>();
             foreach (var region in regionsDomain)
             {
-                regionsDto.Add(new RegionDto()
+                regionsDto.Add(new RegionReadDto()
                 {
+                    Id = region.Id,
                     Code = region.Code,
                     Name = region.Name,
                     ImageUrl = region.ImageUrl,
@@ -52,14 +53,43 @@ namespace NZWalks.API.Controllers
             if (regionDomain == null)
                 return NotFound();
 
-            var regionDto = new RegionDto()
+            var regionDto = new RegionReadDto()
             {
+                Id = regionDomain.Id,
                 Code = regionDomain.Code,
                 Name = regionDomain.Name,
                 ImageUrl = regionDomain.ImageUrl,
             };
 
             return Ok(regionDto);
+        }
+
+        // POST: https://localhost:7192/api/Regions
+        [HttpPost]
+        public IActionResult Create([FromBody] RegionCreateDto regionCreateDto)
+        {
+            // Map or Convert DTO to Domain Model
+            var domainModel = new Region
+            {
+                Code = regionCreateDto.Code,
+                Name = regionCreateDto.Name,
+                ImageUrl = regionCreateDto.ImageUrl,
+            };
+
+            // Use Domain Model to create Region
+            _context.Regions.Add(domainModel);
+            _context.SaveChanges();
+
+            // Map Domain model back to DTO
+            var readDto = new RegionReadDto
+            {
+                Id = domainModel.Id,
+                Code = domainModel.Code,
+                Name = domainModel.Name,
+                ImageUrl = domainModel.ImageUrl,
+            };
+
+            return CreatedAtAction(nameof(GetById), new { id = readDto.Id }, readDto);
         }
     }
 }

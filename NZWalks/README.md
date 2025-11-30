@@ -94,3 +94,36 @@ public class Video
     public DateTime CreatedAt { get; set; }
 }
 ```
+
+
+## CreatedAtAction()
+
+When you create a new resource, best API practice is:
+- Return 201 Created
+- Include the URL of the newly created resource (Location header)
+- Include the created object in the response body
+`CreatedAtAction` is a helper method that handles all three of these requirements.
+
+The typical usage is:
+```
+return CreatedAtAction(
+    nameof(GetById),        // Action name to generate URL for
+    new { id = video.Id },  // Route values (URL parameters)
+    video                   // Response body
+);
+```
+
+1. `nameof(GetById)` tells ASP.NET > Use the route template from the GetById action to build the Location header.
+If `GetById` is `[HttpGet("{id}")]`, ASP.NET knows the URL looks like: `/api/videos/52`.
+
+2. `new { id = video.Id }`
+These are the route parameters needed to construct the URL.
+If your `GetById` route is:
+```
+[HttpGet("{id}")]
+public IActionResult GetById(int id) { ... }
+```
+
+Then ASP.NET needs `{ id = 52 }` to build: `Location: /api/videos/52`.
+
+3. `video` (the created object) becomes the response body.
