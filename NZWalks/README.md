@@ -127,3 +127,22 @@ public IActionResult GetById(int id) { ... }
 Then ASP.NET needs `{ id = 52 }` to build: `Location: /api/videos/52`.
 
 3. `video` (the created object) becomes the response body.
+
+
+## DTO Roles (Simple Version)
+
+1. Create/Update DTOs -> What the client *sends* to you
+
+These represent **input**.
+
+They contain only the fields the client is *allowed* to set.
+
+2. Read DTOs -> What the client *receives* from you
+
+These represent **output**.
+
+They contain fields you want to *show* to the client.
+
+
+- When creating, the client does not send the ID -> they don't know it.
+- When reading, the client must see the ID -> so they can update, delete, or fetch more.
