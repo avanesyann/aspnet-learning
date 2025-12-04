@@ -92,6 +92,7 @@ namespace NZWalks.API.Controllers
             return CreatedAtAction(nameof(GetById), new { id = readDto.Id }, readDto);
         }
 
+        // UPDATE: https://localhost:7192/api/Regions/{id}
         [HttpPut]
         [Route("{id:Guid}")]
         public IActionResult Update([FromRoute] Guid id, [FromBody] RegionUpdateDto regionUpdateDto)
@@ -122,6 +123,7 @@ namespace NZWalks.API.Controllers
             return Ok(regionDtoModel);
         }
 
+        // DELETE: https://localhost:7192/api/Regions/{id}
         [HttpDelete]
         [Route("{id:Guid}")]
         public IActionResult Delete([FromRoute] Guid id)
