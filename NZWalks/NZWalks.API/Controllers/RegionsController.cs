@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NZWalks.API.Data;
 using NZWalks.API.Models.Domain;
 using NZWalks.API.Models.DTO;
@@ -20,10 +21,10 @@ namespace NZWalks.API.Controllers
 
         // GET: https://localhost:7192/api/Regions
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
             // Get data from database (domain models)
-            var regionsDomain = _context.Regions.ToList();
+            var regionsDomain = await _context.Regions.ToListAsync();
 
             // Map domain models to DTOs
             var regionsDto = new List<RegionReadDto>();
@@ -45,10 +46,10 @@ namespace NZWalks.API.Controllers
         // GET: https://localhost:7192/api/Regions/{id}
         [HttpGet]
         [Route("{id}")]
-        public IActionResult GetById([FromRoute] Guid id)
+        public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             // var region = _context.Regions.Find(id);      // Only takes primary key, can't be used with other properties.
-            var regionDomain = _context.Regions.FirstOrDefault(x => x.Id == id);
+            var regionDomain = await _context.Regions.FirstOrDefaultAsync(x => x.Id == id);
 
             if (regionDomain == null)
                 return NotFound();

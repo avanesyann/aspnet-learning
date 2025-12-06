@@ -146,3 +146,53 @@ They contain fields you want to *show* to the client.
 
 - When creating, the client does not send the ID -> they don't know it.
 - When reading, the client must see the ID -> so they can update, delete, or fetch more.
+
+
+## Asynchronous Programming
+
+Asynchronous programming is a way of writing code that does not block the thread while waiting for something slow to finish.
+
+### Synchronous (blocking)
+
+Your code waits for a slow operation to finish.
+
+Example:
+```
+var data = GetDataFromDatabase();   // waits here
+return data;
+```
+
+While waiting:
+- Your thread is blocked
+- That thread cannot handle another request.
+- If many requests come, your server slows down or crashes.
+
+### Asynchronous (non-blocking)
+
+Your code starts the slow operation, but does not wait.
+
+Instead, the thread is released to do other work. 
+
+Then when the result is ready, it "comes back" and continues.
+
+Example:
+```
+var data = await GetDataFromDatabaseAsync();    // doesn't block
+return data;
+```
+
+While waiting:
+- The thread is free to handle other requests.
+- Your server handles more traffic with fewer resources.
+
+
+> Get the data.
+> While you're fetching it, I'll handle other requests.
+> Call me back when you're done.
+
+
+#### Summary (super short)
+
+Thread = a worker that executes code
+Sync code = the worker waits doing nothing
+Async code = the worker is freed to handle other tasks while waiting
