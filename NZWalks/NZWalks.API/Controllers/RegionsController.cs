@@ -67,7 +67,7 @@ namespace NZWalks.API.Controllers
 
         // POST: https://localhost:7192/api/Regions
         [HttpPost]
-        public IActionResult Create([FromBody] RegionCreateDto regionCreateDto)
+        public async Task<IActionResult> Create([FromBody] RegionCreateDto regionCreateDto)
         {
             // Map or Convert DTO to Domain Model
             var domainModel = new Region
@@ -78,8 +78,8 @@ namespace NZWalks.API.Controllers
             };
 
             // Use Domain Model to create Region
-            _context.Regions.Add(domainModel);
-            _context.SaveChanges();
+            await _context.Regions.AddAsync(domainModel);
+            await _context.SaveChangesAsync();
 
             // Map Domain model back to DTO
             var readDto = new RegionReadDto
@@ -96,11 +96,11 @@ namespace NZWalks.API.Controllers
         // UPDATE: https://localhost:7192/api/Regions/{id}
         [HttpPut]
         [Route("{id:Guid}")]
-        public IActionResult Update([FromRoute] Guid id, [FromBody] RegionUpdateDto regionUpdateDto)
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] RegionUpdateDto regionUpdateDto)
         {
             // Check if region exists
             // On the line below, EF retrieves the entity from the db and starts automatically tracking it, so no need for Update().
-            var regionDomainModel = _context.Regions.Find(id);
+            var regionDomainModel = await _context.Regions.FindAsync(id);
 
             if (regionDomainModel == null)
                 return NotFound();
@@ -110,7 +110,7 @@ namespace NZWalks.API.Controllers
             regionDomainModel.Name = regionUpdateDto.Name;
             regionDomainModel.ImageUrl = regionUpdateDto.ImageUrl;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             // Convert Domain model to DTO
             var regionDtoModel = new RegionReadDto
@@ -127,15 +127,15 @@ namespace NZWalks.API.Controllers
         // DELETE: https://localhost:7192/api/Regions/{id}
         [HttpDelete]
         [Route("{id:Guid}")]
-        public IActionResult Delete([FromRoute] Guid id)
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            var region = _context.Regions.Find(id);
+            var region = await _context.Regions.FirstOrDefaultAsync(x => x.Id == id);
 
             if (region == null)
                 return NotFound();
 
-            _context.Regions.Remove(region);
-            _context.SaveChanges();
+            _context.Regions.Remove(region);    // Add, Update, Remove don't actually communicate with the db
+            await _context.SaveChangesAsync();
 
             var regionDto = new RegionReadDto
             {
