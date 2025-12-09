@@ -196,3 +196,24 @@ While waiting:
 Thread = a worker that executes code
 Sync code = the worker waits doing nothing
 Async code = the worker is freed to handle other tasks while waiting
+
+
+## Repository Pattern
+
+The Repository Pattern is a design pattern used in ASP.NET to organize how you application accesses the database.
+Think of it as a middle layer between controllers and Entity Framework.
+
+**In one sentence:** It's a pattern where you create a separate class whose job is to talk to the database, so your controller doesn't have to.
+
+### Why do we use it?
+
+Without a repository, a controller does everything:
+- queries the database
+- updates entities
+- deletes rows
+- handles business rules
+- maps DTOs
+- etc.
+This makes controllers huge and messy.
+
+-> With a repository, we move all DB logic to a single clean class.
