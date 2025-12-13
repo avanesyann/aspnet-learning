@@ -52,7 +52,9 @@ namespace NZWalks.API.Controllers
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             // var region = _context.Regions.Find(id);      // Only takes primary key, can't be used with other properties.
-            var regionDomain = await _context.Regions.FirstOrDefaultAsync(x => x.Id == id);
+            //var regionDomain = await _context.Regions.FirstOrDefaultAsync(x => x.Id == id);
+
+            var regionDomain = await _regionRepository.GetByIdAsync(id);
 
             if (regionDomain == null)
                 return NotFound();
