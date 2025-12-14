@@ -83,8 +83,9 @@ namespace NZWalks.API.Controllers
             };
 
             // Use Domain Model to create Region
-            await _context.Regions.AddAsync(domainModel);
-            await _context.SaveChangesAsync();
+            //await _context.Regions.AddAsync(domainModel);
+            //await _context.SaveChangesAsync();
+            domainModel = await _regionRepository.CreateAsync(domainModel);
 
             // Map Domain model back to DTO
             var readDto = new RegionReadDto

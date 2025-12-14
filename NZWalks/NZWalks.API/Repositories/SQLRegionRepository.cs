@@ -11,6 +11,13 @@ namespace NZWalks.API.Repositories
         {
             _context = context;
         }
+        public async Task<Region> CreateAsync(Region region)
+        {
+            await _context.Regions.AddAsync(region);
+            await _context.SaveChangesAsync();
+
+            return region;
+        }
         public async Task<List<Region>> GetAllAsync()
         {
             return await _context.Regions.ToListAsync();
