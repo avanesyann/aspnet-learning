@@ -26,7 +26,7 @@ namespace NZWalks.API.Repositories
             if (existingRegion == null)
                 return null;
 
-            _context.Regions.Remove(existingRegion);
+            _context.Regions.Remove(existingRegion);    // Add, Update, Remove don't actually communicate with the db
             await _context.SaveChangesAsync();
 
             return existingRegion;
@@ -38,7 +38,7 @@ namespace NZWalks.API.Repositories
         }
         public async Task<Region?> GetByIdAsync(Guid id)
         {
-            return await _context.Regions.FindAsync(id);
+            return await _context.Regions.FindAsync(id);    // Only takes primary key (unlike FirstOrDefault), can't be used with other properties.
         }
     }
 }

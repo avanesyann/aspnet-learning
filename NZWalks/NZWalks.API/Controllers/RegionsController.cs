@@ -51,9 +51,6 @@ namespace NZWalks.API.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
-            // var region = _context.Regions.Find(id);      // Only takes primary key, can't be used with other properties.
-            //var regionDomain = await _context.Regions.FirstOrDefaultAsync(x => x.Id == id);
-
             var regionDomain = await _regionRepository.GetByIdAsync(id);
 
             if (regionDomain == null)
@@ -83,8 +80,6 @@ namespace NZWalks.API.Controllers
             };
 
             // Use Domain Model to create Region
-            //await _context.Regions.AddAsync(domainModel);
-            //await _context.SaveChangesAsync();
             domainModel = await _regionRepository.CreateAsync(domainModel);
 
             // Map Domain model back to DTO
@@ -135,14 +130,10 @@ namespace NZWalks.API.Controllers
         [Route("{id:Guid}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            // var region = await _context.Regions.FirstOrDefaultAsync(x => x.Id == id);
             var region = await _regionRepository.DeleteAsync(id);
 
             if (region == null)
                 return NotFound();
-
-            // _context.Regions.Remove(region);    // Add, Update, Remove don't actually communicate with the db
-            // await _context.SaveChangesAsync();
 
             var regionDto = new RegionReadDto
             {
