@@ -40,5 +40,10 @@ namespace NZWalks.API.Repositories
         {
             return await _context.Regions.FindAsync(id);    // Only takes primary key (unlike FirstOrDefault), can't be used with other properties.
         }
+
+        public Task<Region?> Update(Guid id, Region region)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

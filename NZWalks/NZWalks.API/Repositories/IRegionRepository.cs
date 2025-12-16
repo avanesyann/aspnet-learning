@@ -8,5 +8,6 @@ namespace NZWalks.API.Repositories
         Task<Region?> GetByIdAsync(Guid id);
         Task<Region> CreateAsync(Region region);
         Task<Region?> DeleteAsync(Guid id);
+        Task<Region?> Update(Guid id, Region region);
     }
 }
