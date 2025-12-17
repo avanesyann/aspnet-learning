@@ -41,9 +41,23 @@ namespace NZWalks.API.Repositories
             return await _context.Regions.FindAsync(id);    // Only takes primary key (unlike FirstOrDefault), can't be used with other properties.
         }
 
-        public Task<Region?> Update(Guid id, Region region)
+        public async Task<Region?> UpdateAsync(Guid id, Region region)
         {
-            throw new NotImplementedException();
+            // Check if region exists
+            // On the line below, EF retrieves the entity from the db and starts automatically tracking it, so no need for Update().
+            var regionDomain = await _context.Regions.FindAsync(id);
+
+            if (regionDomain == null)
+                return null;
+
+            // Map DTO to Domain model
+            regionDomain.Code = region.Code;
+            regionDomain.Name = region.Name;
+            regionDomain.ImageUrl = region.ImageUrl;
+
+            await _context.SaveChangesAsync();
+
+            return region;
         }
     }
 }

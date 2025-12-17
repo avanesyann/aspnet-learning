@@ -99,19 +99,17 @@ namespace NZWalks.API.Controllers
         [Route("{id:Guid}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] RegionUpdateDto regionUpdateDto)
         {
-            // Check if region exists
-            // On the line below, EF retrieves the entity from the db and starts automatically tracking it, so no need for Update().
-            var regionDomainModel = await _context.Regions.FindAsync(id);
+            var regionDomainModel = new Region
+            {
+                Code = regionUpdateDto.Code,
+                Name = regionUpdateDto.Name,
+                ImageUrl = regionUpdateDto.ImageUrl,
+            };
+
+            regionDomainModel = await _regionRepository.UpdateAsync(id, regionDomainModel);
 
             if (regionDomainModel == null)
                 return NotFound();
-
-            // Map DTO to Domain model
-            regionDomainModel.Code = regionUpdateDto.Code;
-            regionDomainModel.Name = regionUpdateDto.Name;
-            regionDomainModel.ImageUrl = regionUpdateDto.ImageUrl;
-
-            await _context.SaveChangesAsync();
 
             // Convert Domain model to DTO
             var regionDtoModel = new RegionReadDto
