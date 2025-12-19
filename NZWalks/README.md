@@ -217,3 +217,30 @@ Without a repository, a controller does everything:
 This makes controllers huge and messy.
 
 -> With a repository, we move all DB logic to a single clean class.
+
+
+### AddScoped
+
+`AddScoped` tells ASP.NET how long an object should live.
+
+`builder.Services.AddScoped<IRegionRepository, RegionRepository>();`
+
+This line means:
+**Create one instance of RegionRepository per HTTP request and reuse it everywhere during that request.**
+
+
+### The 3 lifestimes in ASP.NET
+
+- Transient -> New instance every time
+- Scoped -> One instance per request
+- Singleton -> One instance for the entire app
+
+When a client sends a request:
+`GET /api/regions`
+
+ASP.NET:
+1. Creates a scope
+2. Create one RegionRepository
+3. Creates one ApplicationDbContext
+4. Uses them everywhere in that request
+5. Disposes them after the response
