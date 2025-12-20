@@ -96,6 +96,25 @@ public class Video
 ```
 
 
+## AutoMapper
+
+AutoMapper is an object-to-object mapping library. It allows to simplify mapping process between two objects with different structures.
+In ASP.NET Core, it is commonly used to map between domain models and view models.
+
+AutoMapper:
+- Maps properties with the same name
+- Maps nested objects
+- Converts between types
+- Applies custom rules
+
+It does not:
+- Replace DTOs
+- Replace repositories
+- Replace EF Core
+- Do validation
+- Automatically save to DB
+
+
 ## CreatedAtAction()
 
 When you create a new resource, best API practice is:
