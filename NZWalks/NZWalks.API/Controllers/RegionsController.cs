@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NZWalks.API.Data;
@@ -15,11 +16,13 @@ namespace NZWalks.API.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IRegionRepository _regionRepository;
+        private readonly IMapper _mapper;
 
-        public RegionsController(ApplicationDbContext context, IRegionRepository regionRepository)
+        public RegionsController(ApplicationDbContext context, IRegionRepository regionRepository, IMapper mapper)
         {
             _context = context;
             _regionRepository = regionRepository;
+            _mapper = mapper;
         }
 
         // GET: https://localhost:7192/api/Regions
@@ -30,17 +33,20 @@ namespace NZWalks.API.Controllers
             var regionsDomain = await _regionRepository.GetAllAsync();
 
             // Map domain models to DTOs
-            var regionsDto = new List<RegionReadDto>();
-            foreach (var region in regionsDomain)
-            {
-                regionsDto.Add(new RegionReadDto()
-                {
-                    Id = region.Id,
-                    Code = region.Code,
-                    Name = region.Name,
-                    ImageUrl = region.ImageUrl,
-                });
-            }
+            //var regionsDto = new List<RegionReadDto>();
+            //foreach (var region in regionsDomain)
+            //{
+            //    regionsDto.Add(new RegionReadDto()
+            //    {
+            //        Id = region.Id,
+            //        Code = region.Code,
+            //        Name = region.Name,
+            //        ImageUrl = region.ImageUrl,
+            //    });
+            //}
+
+            // Map domain models to DTOs
+            var regionsDto = _mapper.Map<List<RegionReadDto>>(regionsDomain);
 
             // Return DTOs
             return Ok(regionsDto);
@@ -56,15 +62,7 @@ namespace NZWalks.API.Controllers
             if (regionDomain == null)
                 return NotFound();
 
-            var regionDto = new RegionReadDto()
-            {
-                Id = regionDomain.Id,
-                Code = regionDomain.Code,
-                Name = regionDomain.Name,
-                ImageUrl = regionDomain.ImageUrl,
-            };
-
-            return Ok(regionDto);
+            return Ok(_mapper.Map<RegionReadDto>(regionDomain));
         }
 
         // POST: https://localhost:7192/api/Regions
