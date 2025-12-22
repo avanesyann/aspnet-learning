@@ -70,24 +70,14 @@ namespace NZWalks.API.Controllers
         public async Task<IActionResult> Create([FromBody] RegionCreateDto regionCreateDto)
         {
             // Map or Convert DTO to Domain Model
-            var domainModel = new Region
-            {
-                Code = regionCreateDto.Code,
-                Name = regionCreateDto.Name,
-                ImageUrl = regionCreateDto.ImageUrl,
-            };
+            // _mapper.Map<[Destination]>([Source]);
+            var domainModel = _mapper.Map<Region>(regionCreateDto);
 
             // Use Domain Model to create Region
             domainModel = await _regionRepository.CreateAsync(domainModel);
 
             // Map Domain model back to DTO
-            var readDto = new RegionReadDto
-            {
-                Id = domainModel.Id,
-                Code = domainModel.Code,
-                Name = domainModel.Name,
-                ImageUrl = domainModel.ImageUrl,
-            };
+            var readDto = _mapper.Map<RegionReadDto>(domainModel);
 
             return CreatedAtAction(nameof(GetById), new { id = readDto.Id }, readDto);
         }
