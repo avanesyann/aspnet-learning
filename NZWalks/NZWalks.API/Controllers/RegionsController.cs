@@ -87,12 +87,7 @@ namespace NZWalks.API.Controllers
         [Route("{id:Guid}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] RegionUpdateDto regionUpdateDto)
         {
-            var regionDomainModel = new Region
-            {
-                Code = regionUpdateDto.Code,
-                Name = regionUpdateDto.Name,
-                ImageUrl = regionUpdateDto.ImageUrl,
-            };
+            var regionDomainModel = _mapper.Map<Region>(regionUpdateDto);
 
             regionDomainModel = await _regionRepository.UpdateAsync(id, regionDomainModel);
 
@@ -100,13 +95,7 @@ namespace NZWalks.API.Controllers
                 return NotFound();
 
             // Convert Domain model to DTO
-            var regionDtoModel = new RegionReadDto
-            {
-                Id = regionDomainModel.Id,
-                Code = regionUpdateDto.Code,
-                Name = regionUpdateDto.Name,
-                ImageUrl = regionUpdateDto.ImageUrl,
-            };
+            var regionDtoModel = _mapper.Map<RegionReadDto>(regionDomainModel);
 
             return Ok(regionDtoModel);
         }
