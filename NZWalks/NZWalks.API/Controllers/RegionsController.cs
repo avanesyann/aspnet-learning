@@ -110,13 +110,7 @@ namespace NZWalks.API.Controllers
             if (region == null)
                 return NotFound();
 
-            var regionDto = new RegionReadDto
-            {
-                Id = region.Id,
-                Code = region.Code,
-                Name = region.Name,
-                ImageUrl = region.ImageUrl,
-            };
+            var regionDto = _mapper.Map<RegionReadDto>(region);
 
             return Ok(regionDto);
         }
