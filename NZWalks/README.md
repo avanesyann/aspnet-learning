@@ -114,6 +114,25 @@ It does not:
 - Do validation
 - Automatically save to DB
 
+### ReverseMap()
+
+`ReverseMap()` creates the mapping in both directions.
+Instead of writing:
+```
+CreateMap<Region, RegionReadDto>();
+CreateMap<RegionReadDto, Region>();
+```
+We write:
+`CreateMap<Region, RegionReadDto>().ReverseMap();`
+
+That single line means:
+
+Region -> RegionReadDto
+RegionReadDto -> Region
+
+**Use `ReverseMap()` only when both directions are logically valid.**
+
+
 
 ## CreatedAtAction()
 
