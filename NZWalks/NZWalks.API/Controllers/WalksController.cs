@@ -11,12 +11,13 @@ namespace NZWalks.API.Controllers
     [ApiController]
     public class WalksController : ControllerBase
     {
-        private readonly IRegionRepository _repository;
+        private readonly IWalkRepository _repository;
         private readonly IMapper _mapper;
 
-        public WalksController(IMapper mapper)
+        public WalksController(IMapper mapper, IWalkRepository walkRepository)
         {
             _mapper = mapper;
+            _repository = walkRepository;
         }
 
         // CREATE Walk
@@ -27,7 +28,10 @@ namespace NZWalks.API.Controllers
             // Map DTO to Domain Model
             var domainModel = _mapper.Map<Walk>(walkCreateDto);
 
-            return null;
+            await _repository.CreateAsync(domainModel);
+
+            // Map Domain model to DTO
+            return Ok(_mapper.Map<WalkReadDto>(domainModel));
         }
     }
 }
