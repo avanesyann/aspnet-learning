@@ -24,5 +24,15 @@ namespace NZWalks.API.Repositories
         {
             return await _context.Walks.ToListAsync();
         }
+
+        public async Task<Walk?> GetByIdAsync(Guid id)
+        {
+            var walkDomain = await _context.Walks.FindAsync(id);
+
+            if (walkDomain == null)
+                return null;
+
+            return walkDomain;
+        }
     }
 }
