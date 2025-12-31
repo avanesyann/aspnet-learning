@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NZWalks.API.Data;
 using NZWalks.API.Models.Domain;
+using NZWalks.API.Models.DTO;
 
 namespace NZWalks.API.Repositories
 {
@@ -33,6 +34,25 @@ namespace NZWalks.API.Repositories
                 return null;
 
             return walkDomain;
+        }
+
+        public async Task<Walk?> UpdateAsync(Guid id, Walk walk)
+        {
+            var existingWalk = await _context.Walks.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (existingWalk == null)
+                return null;
+
+            existingWalk.Name = walk.Name;
+            existingWalk.Description = walk.Description;
+            existingWalk.LengthInKm = walk.LengthInKm;
+            existingWalk.ImageUrl = walk.ImageUrl;
+            existingWalk.DifficultyId = walk.DifficultyId;
+            existingWalk.RegionId = walk.RegionId;
+
+            await _context.SaveChangesAsync();
+
+            return existingWalk;
         }
     }
 }
