@@ -282,3 +282,25 @@ ASP.NET:
 3. Creates one ApplicationDbContext
 4. Uses them everywhere in that request
 5. Disposes them after the response
+
+
+
+## Navigation Properties
+
+A navigation property is a property on an entity that points to another related entity.
+
+In simple terms: They let you navigate between related tables using objects, not SQL.
+
+
+Databases use:
+
+- foreign keys
+- joins
+
+C# uses:
+
+- objects
+- references
+- collections
+
+Navigation properties are the bridge between those worlds.
