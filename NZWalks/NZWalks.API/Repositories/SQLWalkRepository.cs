@@ -23,7 +23,8 @@ namespace NZWalks.API.Repositories
 
         public async Task<List<Walk>> GetAllAsync()
         {
-            return await _context.Walks.ToListAsync();
+            // Include tells the db to collect Region information through the RegionId in Walk Model
+            return await _context.Walks.Include("Difficulty").Include(x => x.Region).ToListAsync();
         }
 
         public async Task<Walk?> GetByIdAsync(Guid id)
