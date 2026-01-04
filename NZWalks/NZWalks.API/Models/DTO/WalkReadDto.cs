@@ -12,5 +12,6 @@
         public Guid RegionId { get; set; }
 
         public RegionReadDto Region { get; set; }
+        public DifficultyReadDto Difficulty { get; set; }
     }
 }
