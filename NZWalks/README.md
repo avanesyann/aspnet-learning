@@ -304,3 +304,36 @@ C# uses:
 - collections
 
 Navigation properties are the bridge between those worlds.
+
+
+### Two types of navigation properties
+#### Reference navigation (one object)
+
+`public Region Region { get; set; }`
+
+Used in:
+
+- many-to-one
+- one-to-one
+
+#### Collection navigation (many objects)
+
+`public ICollection<Country> Countries { get; set; }`
+
+Used in:
+
+- one-to-many
+- many-to-many
+
+
+### Do navigation properties create columns in DB?
+
+No.
+
+Only foreign keys create columns.
+
+Navigation properties exist:
+
+- in C#
+- in EF Core
+- not in the database
