@@ -337,3 +337,29 @@ Navigation properties exist:
 - in C#
 - in EF Core
 - not in the database
+
+
+
+## Model Validations
+
+Model validation is how ASP.NET verifies that incoming data is acceptable before your code runs.
+
+It answers one question:
+> Is the data the client sent valid enough for us to process?
+
+If the answer is no, your controller method should not run.
+
+
+**Important rule:** Validation belongs on DTOs, not domain models
+
+
+### How validation works
+
+When a request arrives:
+
+1. ASP.NET reads JSON
+2. Tries to bind it to a DTO
+3. Applies validation rules
+4. Sets `ModelState.IsValid`
+5. If invalid -> returns 400 Bad Request
+6. If valid -> Controller runs
