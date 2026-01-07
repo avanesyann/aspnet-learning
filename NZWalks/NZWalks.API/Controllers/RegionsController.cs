@@ -90,6 +90,9 @@ namespace NZWalks.API.Controllers
         [Route("{id:Guid}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] RegionUpdateDto regionUpdateDto)
         {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
             var regionDomainModel = _mapper.Map<Region>(regionUpdateDto);
 
             regionDomainModel = await _regionRepository.UpdateAsync(id, regionDomainModel);
