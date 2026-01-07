@@ -69,6 +69,9 @@ namespace NZWalks.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] RegionCreateDto regionCreateDto)
         {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
             // Map or Convert DTO to Domain Model
             // _mapper.Map<[Destination]>([Source]);
             var domainModel = _mapper.Map<Region>(regionCreateDto);
