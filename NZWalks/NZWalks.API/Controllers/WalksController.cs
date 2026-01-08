@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using NZWalks.API.Models.Domain;
 using NZWalks.API.Models.DTO;
 using NZWalks.API.Repositories;
@@ -25,6 +26,9 @@ namespace NZWalks.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] WalkCreateDto walkCreateDto)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             // Map DTO to Domain Model
             var domainModel = _mapper.Map<Walk>(walkCreateDto);
 
@@ -65,6 +69,9 @@ namespace NZWalks.API.Controllers
         [Route("{id:Guid}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] WalkCreateDto walkCreateDto)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var walkDomain = _mapper.Map<Walk>(walkCreateDto);
 
             walkDomain = await _repository.UpdateAsync(id, walkDomain);
