@@ -363,3 +363,43 @@ When a request arrives:
 4. Sets `ModelState.IsValid`
 5. If invalid -> returns 400 Bad Request
 6. If valid -> Controller runs
+
+
+
+## Filtering
+
+Filtering means returning only the data that matches some condition.
+
+APIs rarely return all data.
+
+Clients usually want:
+
+- Regions with a specific code
+- Items within a range
+- Users with a status
+- Records that match a search term
+
+Filtering:
+
+- reduces data size
+- improves performance
+- makes APIs usable
+
+
+### Who is responsible for what?
+
+**Client:** Specifies what to filter by
+
+**Controller:** Reads filter parameters and passes them to repository
+
+**Repository:** Applies filtering logic using LINQ
+
+**Database:** Executes filtered SQL
+
+
+Clients usually filter using query parameters:
+```
+GET /api/regions?code=EU
+GET /api/regions?name=Europe
+GET /api/regions?isActive=true
+```
