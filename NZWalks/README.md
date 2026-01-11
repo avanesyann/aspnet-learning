@@ -403,3 +403,25 @@ GET /api/regions?code=EU
 GET /api/regions?name=Europe
 GET /api/regions?isActive=true
 ```
+
+
+
+## Sorting
+
+Sorting is the act of ordering data based on one or more fields.
+
+Instead of just returning items, we decide in what order they appear.
+
+Without sorting:
+
+- Data is usually in *database insertion order*
+- Responses can feel random
+- Client often has to sort manually
+
+> Client -> Controller -> Repository -> DbContext -> Database
+
+```
+GET /api/regions?sort=name_asc
+GET /api/regions?sort=name_desc
+GET /api/regions?sort=code_asc
+```
