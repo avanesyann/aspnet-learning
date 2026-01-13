@@ -425,3 +425,25 @@ GET /api/regions?sort=name_asc
 GET /api/regions?sort=name_desc
 GET /api/regions?sort=code_asc
 ```
+
+
+
+## Pagination
+
+Pagination is splitting a large result set into smaller, fixed-size chunks (pages).
+
+Instead of returning everything, the API returns a portion of the data.
+
+Example:
+
+- Page 1 -> items 1-10
+- Page 2 -> items 11-20
+- Page 3 -> items 21 - 30
+
+
+> Filter -> Sort -> Paginate -> Map -> Return
+
+```
+GET /api/regions?pageNumber=1&pageSize=10
+GET /api/regions?pageNumber=2&pageSize=10
+```
