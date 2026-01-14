@@ -1,3 +1,123 @@
+## The ASP.NET Web API Mental Model
+
+> Client -> Controller -> DTOs -> Domain Models -> Repository -> DbContext (EF Core) -> Database
+
+### Client
+
+What it knows:
+- URLs
+- HTTP verbs
+- JSON
+
+What it does not know:
+- DbContext
+- EF Core
+- Domain models
+
+### Controller (Entry point)
+
+It's the door to the API.
+
+What it does:
+- Receives HTTP requests
+- Validates input
+- Returns HTTP responses
+
+What it should contain:
+- Routes
+- Status codes
+- DTO mappings
+
+What it should not contain:
+- Database logic
+- EF Core queries
+- Business rules
+
+### DTOs
+
+DTOs define what the client is alllowed to send and see
+
+They protect:
+- the database
+- the internal logic
+- future changes
+
+### Domain Models (Entities)
+
+- EF Core tracks them
+- They represent tables
+- They contain relationships
+
+Who uses them:
+- Repositories
+- DbContext
+
+### Mapping (DTO <-> Domain)
+
+Two ways:
+- Manual mapping (clear, verbose)
+- AutoMapper (clean, scalable)
+
+Mapping is just translation, nothing more.
+
+### Repository
+
+They exist to hide EF Core from the rest of the app.
+
+Repositories:
+- talk to DbContext
+- return domain models
+- contain query logic
+
+Repositories do not:
+- Return DTOs
+- Handle HTTP
+- Validate requests
+
+### DbContext (EF Core)
+
+The bridge between C# and the database.
+
+What it does:
+- Tracks changes
+- Translates LINQ -> SQL
+- Saves data
+
+### Dependency Injection (the glue)
+
+It exists so classes don't create their own dependencies.
+
+ASP.NET:
+- creates objects
+- injects them
+- manages lifetime
+
+We never `new` repositories or DbContexts manually.
+
+### Request flow
+
+Let's say client sends POST /regions:
+1. Client sends JSON -> CreateDto
+2. Controller receives DTO
+3. DTO -> Domain Model (mapping)
+4. Domain Model -> Repository
+5. Repository -> DbContext
+6. DbConetxt -> Database
+7. Database generates id
+8. Domain Model updated
+9. Domain -> ReadDto
+10. Controller returns response
+
+### Response (what client gets)
+
+HTTP response contains:
+- status code
+- headers
+- body (DTO)
+
+
+
+
 ## REST
 
 Representational State Transfer is an architectural style for building web services. It defines a set of rules and constraints on how clients (like browsers, mobile apps, or other backend services) communicate with servers.
