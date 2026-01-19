@@ -90,5 +90,33 @@ namespace ToDoList.API.Controllers
 
             return CreatedAtAction(nameof(GetById), new { id = readToDo.Id }, readToDo);
         }
+
+        [HttpPut]
+        [Route("{id}")]
+        public IActionResult Update([FromRoute] Guid id, [FromBody] ToDoCreateDto createToDo)
+        {
+            var domainToDo = _context.ToDos.FirstOrDefault(x => x.Id == id);
+
+            if (domainToDo == null)
+                return NotFound();
+
+            domainToDo.Name = createToDo.Name;
+            domainToDo.Description = createToDo.Description;
+            domainToDo.IsCompleted = createToDo.IsCompleted;
+            domainToDo.CreatedAt = createToDo.CreatedAt;
+
+            _context.SaveChanges();
+
+            var readToDo = new ToDoReadDto
+            {
+                Id = domainToDo.Id,
+                Name = domainToDo.Name,
+                Description = domainToDo.Description,
+                IsCompleted = domainToDo.IsCompleted,
+                CreatedAt = domainToDo.CreatedAt,
+            };
+
+            return Ok(readToDo);
+        }
     }
 }
