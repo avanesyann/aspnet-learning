@@ -118,5 +118,29 @@ namespace ToDoList.API.Controllers
 
             return Ok(readToDo);
         }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public IActionResult Delete([FromRoute] Guid id)
+        {
+            var domainToDo = _context.ToDos.Find(id);
+
+            if (domainToDo == null)
+                return NotFound();
+
+            _context.Remove(domainToDo);
+            _context.SaveChanges();
+
+            var readToDo = new ToDoReadDto
+            {
+                Id = domainToDo.Id,
+                Name = domainToDo.Name,
+                Description = domainToDo.Description,
+                IsCompleted = domainToDo.IsCompleted,
+                CreatedAt = domainToDo.CreatedAt,
+            };
+
+            return Ok(readToDo);
+        }
     }
 }
