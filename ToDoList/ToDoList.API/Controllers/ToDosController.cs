@@ -70,7 +70,6 @@ namespace ToDoList.API.Controllers
                 Name = toDoCreateDto.Name,
                 Description = toDoCreateDto.Description,
                 IsCompleted = toDoCreateDto.IsCompleted,
-                CreatedAt = toDoCreateDto.CreatedAt
             };
 
             if (domainToDo == null)
@@ -103,7 +102,6 @@ namespace ToDoList.API.Controllers
             domainToDo.Name = createToDo.Name;
             domainToDo.Description = createToDo.Description;
             domainToDo.IsCompleted = createToDo.IsCompleted;
-            domainToDo.CreatedAt = createToDo.CreatedAt;
 
             _context.SaveChanges();
 
