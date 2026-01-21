@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ToDoList.API.Data;
 using ToDoList.API.Model;
+using ToDoList.API.Repositories;
 
 namespace ToDoList.API.Controllers
 {
@@ -11,17 +12,21 @@ namespace ToDoList.API.Controllers
     public class ToDosController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        public ToDosController(ApplicationDbContext context)
+        private readonly IToDoRepository _repository;
+
+        public ToDosController(ApplicationDbContext context, IToDoRepository repository)
         {
             _context = context;
+            _repository = repository;
         }
 
         [HttpGet]
-        public async Task<IActionResult >GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var domainToDos = await _context.ToDos.ToListAsync();
-            var dtoToDos = new List<ToDoReadDto>();
+            var domainToDos = await _repository.GetAllAsync();
 
+
+            var dtoToDos = new List<ToDoReadDto>();
             foreach (var toDo in domainToDos)
             {
                 dtoToDos.Add(new ToDoReadDto
@@ -41,7 +46,7 @@ namespace ToDoList.API.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
-            var domainToDo = await _context.ToDos.FirstOrDefaultAsync(x => x.Id == id);
+            var domainToDo = await _repository.GetByIdAsync(id);
 
             if (domainToDo == null)
                 return NotFound();
@@ -68,8 +73,7 @@ namespace ToDoList.API.Controllers
                 IsCompleted = toDoCreateDto.IsCompleted,
             };
 
-            _context.ToDos.Add(domainToDo);
-            await _context.SaveChangesAsync();
+            domainToDo = await _repository.CreateAsync(domainToDo);
 
             var readToDo = new ToDoReadDto
             {
