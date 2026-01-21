@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ToDoList.API.Data;
 using ToDoList.API.Model;
 
@@ -16,15 +17,10 @@ namespace ToDoList.API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult >GetAll()
         {
-            var domainToDos = _context.ToDos.ToList();
+            var domainToDos = await _context.ToDos.ToListAsync();
             var dtoToDos = new List<ToDoReadDto>();
-
-            if (domainToDos == null)
-            {
-                return NotFound();
-            }
 
             foreach (var toDo in domainToDos)
             {
@@ -43,9 +39,9 @@ namespace ToDoList.API.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public IActionResult GetById([FromRoute] Guid id)
+        public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
-            var domainToDo = _context.ToDos.FirstOrDefault(x => x.Id == id);
+            var domainToDo = await _context.ToDos.FirstOrDefaultAsync(x => x.Id == id);
 
             if (domainToDo == null)
                 return NotFound();
@@ -63,7 +59,7 @@ namespace ToDoList.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] ToDoCreateDto toDoCreateDto)
+        public async Task<IActionResult> Create([FromBody] ToDoCreateDto toDoCreateDto)
         {
             var domainToDo = new ToDo
             {
@@ -72,11 +68,8 @@ namespace ToDoList.API.Controllers
                 IsCompleted = toDoCreateDto.IsCompleted,
             };
 
-            if (domainToDo == null)
-                return NotFound();
-
             _context.ToDos.Add(domainToDo);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             var readToDo = new ToDoReadDto
             {
@@ -92,9 +85,9 @@ namespace ToDoList.API.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        public IActionResult Update([FromRoute] Guid id, [FromBody] ToDoCreateDto createToDo)
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] ToDoCreateDto createToDo)
         {
-            var domainToDo = _context.ToDos.FirstOrDefault(x => x.Id == id);
+            var domainToDo = await _context.ToDos.FirstOrDefaultAsync(x => x.Id == id);
 
             if (domainToDo == null)
                 return NotFound();
@@ -103,7 +96,7 @@ namespace ToDoList.API.Controllers
             domainToDo.Description = createToDo.Description;
             domainToDo.IsCompleted = createToDo.IsCompleted;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             var readToDo = new ToDoReadDto
             {
@@ -119,15 +112,15 @@ namespace ToDoList.API.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        public IActionResult Delete([FromRoute] Guid id)
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            var domainToDo = _context.ToDos.Find(id);
+            var domainToDo = await _context.ToDos.FindAsync(id);
 
             if (domainToDo == null)
                 return NotFound();
 
             _context.Remove(domainToDo);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             var readToDo = new ToDoReadDto
             {
