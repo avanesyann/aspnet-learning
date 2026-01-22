@@ -21,12 +21,41 @@ namespace ToDoList.API.Repositories
         {
             return await _context.ToDos.FindAsync(id);
         }
-        public async Task<ToDo?> CreateAsync(ToDo toDo)
+        public async Task<ToDo> CreateAsync(ToDo toDo)
         {
             await _context.ToDos.AddAsync(toDo);
             await _context.SaveChangesAsync();
 
             return toDo;
+        }
+        public async Task<ToDo?> UpdateAsync(Guid id, ToDo toDo)
+        {
+            var domainToDo = await _context.ToDos.FindAsync(id);
+
+            if (domainToDo == null)
+            {
+                return null;
+            }
+
+            domainToDo.Name = toDo.Name;
+            domainToDo.Description = toDo.Description;
+            domainToDo.IsCompleted = toDo.IsCompleted;
+
+            await _context.SaveChangesAsync();
+
+            return toDo;
+        }
+        public async Task<ToDo?> DeleteAsync(Guid id)
+        {
+            var domainToDo = await _context.ToDos.FindAsync(id);
+
+            if (domainToDo == null)
+                return null;
+
+            _context.ToDos.Remove(domainToDo);
+            await _context.SaveChangesAsync();
+
+            return domainToDo;
         }
     }
 }

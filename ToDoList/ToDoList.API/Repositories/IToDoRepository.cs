@@ -7,7 +7,7 @@ namespace ToDoList.API.Repositories
         Task<List<ToDo>> GetAllAsync();
         Task<ToDo?> GetByIdAsync(Guid id);
         Task<ToDo> CreateAsync(ToDo toDo);
-        // Task<ToDo?> UpdateAsync(Guid id, ToDoCreateDto updateToDo);
-        // Task<ToDo?> DeleteAsync(Guid id);
+         Task<ToDo?> UpdateAsync(Guid id, ToDo toDo);
+         Task<ToDo?> DeleteAsync(Guid id);
     }
 }

@@ -11,12 +11,10 @@ namespace ToDoList.API.Controllers
     [ApiController]
     public class ToDosController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
         private readonly IToDoRepository _repository;
 
-        public ToDosController(ApplicationDbContext context, IToDoRepository repository)
+        public ToDosController(IToDoRepository repository)
         {
-            _context = context;
             _repository = repository;
         }
 
@@ -91,16 +89,17 @@ namespace ToDoList.API.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] ToDoCreateDto createToDo)
         {
-            var domainToDo = await _context.ToDos.FirstOrDefaultAsync(x => x.Id == id);
+            var domainToDo = new ToDo
+            {
+                Name = createToDo.Name,
+                Description = createToDo.Description,
+                IsCompleted = createToDo.IsCompleted,
+            };
+
+            domainToDo = await _repository.UpdateAsync(id, domainToDo);
 
             if (domainToDo == null)
                 return NotFound();
-
-            domainToDo.Name = createToDo.Name;
-            domainToDo.Description = createToDo.Description;
-            domainToDo.IsCompleted = createToDo.IsCompleted;
-
-            await _context.SaveChangesAsync();
 
             var readToDo = new ToDoReadDto
             {
@@ -118,13 +117,10 @@ namespace ToDoList.API.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            var domainToDo = await _context.ToDos.FindAsync(id);
+            var domainToDo = await _repository.DeleteAsync(id);
 
             if (domainToDo == null)
                 return NotFound();
-
-            _context.Remove(domainToDo);
-            await _context.SaveChangesAsync();
 
             var readToDo = new ToDoReadDto
             {
