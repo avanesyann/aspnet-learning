@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ToDoList.API.Data;
@@ -12,10 +13,12 @@ namespace ToDoList.API.Controllers
     public class ToDosController : ControllerBase
     {
         private readonly IToDoRepository _repository;
+        private readonly IMapper _mapper;
 
-        public ToDosController(IToDoRepository repository)
+        public ToDosController(IToDoRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -23,19 +26,7 @@ namespace ToDoList.API.Controllers
         {
             var domainToDos = await _repository.GetAllAsync();
 
-
-            var dtoToDos = new List<ToDoReadDto>();
-            foreach (var toDo in domainToDos)
-            {
-                dtoToDos.Add(new ToDoReadDto
-                {
-                    Id = toDo.Id,
-                    Name = toDo.Name,
-                    Description = toDo.Description,
-                    IsCompleted = toDo.IsCompleted,
-                    CreatedAt = toDo.CreatedAt
-                });
-            }
+            var dtoToDos = _mapper.Map<List<ToDoReadDto>>(domainToDos);
 
             return Ok(dtoToDos);
         }
@@ -49,14 +40,7 @@ namespace ToDoList.API.Controllers
             if (domainToDo == null)
                 return NotFound();
 
-            var dtoToDo = new ToDoReadDto
-            {
-                Id = domainToDo.Id,
-                Name = domainToDo.Name,
-                Description = domainToDo.Description,
-                IsCompleted = domainToDo.IsCompleted,
-                CreatedAt = domainToDo.CreatedAt
-            };
+            var dtoToDo = _mapper.Map<ToDoReadDto>(domainToDo);
 
             return Ok(dtoToDo);
         }
@@ -64,23 +48,11 @@ namespace ToDoList.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ToDoCreateDto toDoCreateDto)
         {
-            var domainToDo = new ToDo
-            {
-                Name = toDoCreateDto.Name,
-                Description = toDoCreateDto.Description,
-                IsCompleted = toDoCreateDto.IsCompleted,
-            };
+            var domainToDo = _mapper.Map<ToDo>(toDoCreateDto);
 
             domainToDo = await _repository.CreateAsync(domainToDo);
 
-            var readToDo = new ToDoReadDto
-            {
-                Id = domainToDo.Id,
-                Name = domainToDo.Name,
-                Description = domainToDo.Description,
-                IsCompleted = domainToDo.IsCompleted,
-                CreatedAt = domainToDo.CreatedAt,
-            };
+            var readToDo = _mapper.Map<ToDoReadDto>(domainToDo);
 
             return CreatedAtAction(nameof(GetById), new { id = readToDo.Id }, readToDo);
         }
@@ -89,26 +61,14 @@ namespace ToDoList.API.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] ToDoCreateDto createToDo)
         {
-            var domainToDo = new ToDo
-            {
-                Name = createToDo.Name,
-                Description = createToDo.Description,
-                IsCompleted = createToDo.IsCompleted,
-            };
+            var domainToDo = _mapper.Map<ToDo>(createToDo);
 
             domainToDo = await _repository.UpdateAsync(id, domainToDo);
 
             if (domainToDo == null)
                 return NotFound();
 
-            var readToDo = new ToDoReadDto
-            {
-                Id = domainToDo.Id,
-                Name = domainToDo.Name,
-                Description = domainToDo.Description,
-                IsCompleted = domainToDo.IsCompleted,
-                CreatedAt = domainToDo.CreatedAt,
-            };
+            var readToDo = _mapper.Map<ToDoReadDto>(domainToDo);
 
             return Ok(readToDo);
         }
@@ -122,14 +82,7 @@ namespace ToDoList.API.Controllers
             if (domainToDo == null)
                 return NotFound();
 
-            var readToDo = new ToDoReadDto
-            {
-                Id = domainToDo.Id,
-                Name = domainToDo.Name,
-                Description = domainToDo.Description,
-                IsCompleted = domainToDo.IsCompleted,
-                CreatedAt = domainToDo.CreatedAt,
-            };
+            var readToDo = _mapper.Map<ToDoReadDto>(domainToDo);
 
             return Ok(readToDo);
         }
