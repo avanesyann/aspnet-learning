@@ -23,9 +23,9 @@ namespace ToDoList.API.Controllers
 
         // GET: /api/ToDos?filterOn=isCompleted&filterQuery=True
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] bool? isCompleted)
+        public async Task<IActionResult> GetAll([FromQuery] bool? isCompleted, [FromQuery] string? sortBy, [FromQuery] bool? isAscending)
         {
-            var domainToDos = await _repository.GetAllAsync(isCompleted);
+            var domainToDos = await _repository.GetAllAsync(isCompleted, sortBy, isAscending ?? true);
 
             var dtoToDos = _mapper.Map<List<ToDoReadDto>>(domainToDos);
 

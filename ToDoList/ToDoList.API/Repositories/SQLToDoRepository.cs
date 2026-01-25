@@ -13,12 +13,25 @@ namespace ToDoList.API.Repositories
             _context = context;
         }
 
-        public async Task<List<ToDo>> GetAllAsync(bool? isCompleted)
+        public async Task<List<ToDo>> GetAllAsync(bool? isCompleted, string? sortBy, bool isAscending = true)
         {
             var toDosQuery = _context.ToDos.AsQueryable();
 
+            // Filtering
             if (isCompleted.HasValue)
                 toDosQuery = toDosQuery.Where(x => x.IsCompleted == isCompleted.Value);
+
+            // Sorting
+            if (!string.IsNullOrWhiteSpace(sortBy))
+            {
+                if (sortBy.Equals("Name", StringComparison.OrdinalIgnoreCase))
+                {
+                    toDosQuery = isAscending ? toDosQuery.OrderBy(x => x.Name) : toDosQuery.OrderByDescending(x => x.Name);
+                } else if (sortBy.Equals("CreatedAt", StringComparison.OrdinalIgnoreCase))
+                {
+                    toDosQuery = isAscending ? toDosQuery.OrderBy(x => x.CreatedAt) : toDosQuery.OrderByDescending(x => x.CreatedAt);
+                }
+            }
 
             return await toDosQuery.ToListAsync();
         }
