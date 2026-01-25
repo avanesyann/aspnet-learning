@@ -13,9 +13,14 @@ namespace ToDoList.API.Repositories
             _context = context;
         }
 
-        public async Task<List<ToDo>> GetAllAsync()
+        public async Task<List<ToDo>> GetAllAsync(bool? isCompleted)
         {
-            return await _context.ToDos.ToListAsync();
+            var toDosQuery = _context.ToDos.AsQueryable();
+
+            if (isCompleted.HasValue)
+                toDosQuery = toDosQuery.Where(x => x.IsCompleted == isCompleted.Value);
+
+            return await toDosQuery.ToListAsync();
         }
         public async Task<ToDo?> GetByIdAsync(Guid id)
         {

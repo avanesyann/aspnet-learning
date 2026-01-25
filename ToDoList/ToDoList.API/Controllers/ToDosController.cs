@@ -21,10 +21,11 @@ namespace ToDoList.API.Controllers
             _mapper = mapper;
         }
 
+        // GET: /api/ToDos?filterOn=isCompleted&filterQuery=True
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] bool? isCompleted)
         {
-            var domainToDos = await _repository.GetAllAsync();
+            var domainToDos = await _repository.GetAllAsync(isCompleted);
 
             var dtoToDos = _mapper.Map<List<ToDoReadDto>>(domainToDos);
 
