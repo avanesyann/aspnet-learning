@@ -13,7 +13,8 @@ namespace ToDoList.API.Repositories
             _context = context;
         }
 
-        public async Task<List<ToDo>> GetAllAsync(bool? isCompleted, string? sortBy, bool isAscending = true)
+        public async Task<List<ToDo>> GetAllAsync(bool? isCompleted, string? sortBy, bool isAscending = true,
+            int pageNumber = 1, int pageSize = 5)
         {
             var toDosQuery = _context.ToDos.AsQueryable();
 
@@ -33,7 +34,10 @@ namespace ToDoList.API.Repositories
                 }
             }
 
-            return await toDosQuery.ToListAsync();
+            // Pagination
+            var skipItems = (pageNumber - 1) * pageSize;
+
+            return await toDosQuery.Skip(skipItems).Take(pageSize).ToListAsync();
         }
         public async Task<ToDo?> GetByIdAsync(Guid id)
         {
