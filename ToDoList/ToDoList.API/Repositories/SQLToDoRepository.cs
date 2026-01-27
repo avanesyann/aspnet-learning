@@ -13,8 +13,8 @@ namespace ToDoList.API.Repositories
             _context = context;
         }
 
-        public async Task<List<ToDo>> GetAllAsync(bool? isCompleted, string? sortBy, bool isAscending = true,
-            int pageNumber = 1, int pageSize = 5)
+        public async Task<List<ToDo>> GetAllAsync(bool? isCompleted, string? sortBy, bool isAscending,
+            int pageNumber, int pageSize)
         {
             var toDosQuery = _context.ToDos.AsQueryable();
 

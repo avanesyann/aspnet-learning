@@ -24,7 +24,7 @@ namespace ToDoList.API.Controllers
         // GET: /api/ToDos?filterOn=isCompleted&filterQuery=True&pageNumber=1&pageSize=5
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] bool? isCompleted, [FromQuery] string? sortBy, 
-            [FromQuery] bool? isAscending, [FromQuery] int pageNumber = 1, int pageSize = 5)
+            [FromQuery] bool? isAscending = true, [FromQuery] int pageNumber = 1, int pageSize = 5)
         {
             var domainToDos = await _repository.GetAllAsync(isCompleted, sortBy, isAscending ?? true, pageNumber, pageSize);
 
