@@ -567,3 +567,64 @@ Example:
 GET /api/regions?pageNumber=1&pageSize=10
 GET /api/regions?pageNumber=2&pageSize=10
 ```
+
+
+
+## Authentication
+
+Authentication is the process of verifying the identity of a user.
+
+Examples:
+- Logging in with email + password
+- Logging in with Google
+- Using JWT tokens
+- Using fingerprint / Face ID
+
+
+
+## Authorization
+
+Authorization happens after authentication.
+
+It answers the question: "What can you access?"
+
+Examples:
+- Admin can delete users | User cannot
+- User can see their own info | Not others'
+- Only managers can access `/admin`
+
+
+
+## JWT tokens
+
+JSON Web Token is a compact, self-contained token used to prove that a user is authenticated.
+
+In simple words: It's a digital ID card for the user.
+
+
+### Why do we use JWT?
+
+Without JWT (classic session)
+- Server stores session in memory
+- Doesn't scale well
+
+With JWT
+- Server does NOT store session
+- Token contains all needed info
+- Easy to scale
+
+
+### JWT flow
+
+Step 1: Login
+Step 2: Server verifies credentials
+Step 3: Server sends JWT to client
+Step 4: Client stores token
+- LocalStorage
+- SessionStorage
+- Memory
+Step 5: Client sends token with every request
+Step 6: Server validates token
+- Signature
+- Expiration
+- Claims
