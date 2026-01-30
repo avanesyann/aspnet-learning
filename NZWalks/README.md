@@ -628,3 +628,18 @@ Step 6: Server validates token
 - Signature
 - Expiration
 - Claims
+
+
+### JWT vs Session
+
+JWT is:
+- Stateless
+- Stored on client
+- Scales well
+- Good for APIs
+
+Session is:
+- Stateful
+- Stored on server
+- Harder to scale
+- Good for MVC apps
