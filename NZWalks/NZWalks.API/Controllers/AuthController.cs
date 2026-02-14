@@ -60,9 +60,15 @@ namespace NZWalks.API.Controllers
 
                 if (checkPassword)
                 {
-                    // Create token.
+                    // Get Roles for this user
+                    var roles = await _userManager.GetRolesAsync(user);
 
-                    return Ok();
+                    if (roles != null)
+                    {
+                        // Create token.
+                        var jwtToken = _tokenRepository.CreateJWTToken(user, roles.ToList());
+                        return Ok(jwtToken);
+                    }
                 }
             }
 
