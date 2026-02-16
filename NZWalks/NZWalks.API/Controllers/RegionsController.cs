@@ -29,7 +29,7 @@ namespace NZWalks.API.Controllers
 
         // GET: https://localhost:7192/api/Regions
         [HttpGet]
-        [Authorize(Roles = "Reader")]
+        [Authorize(Roles = "Reader,Writer")]
         public async Task<IActionResult> GetAll()
         {
             // Get data from database (domain models)
@@ -58,7 +58,7 @@ namespace NZWalks.API.Controllers
         // GET: https://localhost:7192/api/Regions/{id}
         [HttpGet]
         [Route("{id}")]
-        [Authorize(Roles = "Reader")]
+        [Authorize(Roles = "Reader,Writer")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             var regionDomain = await _regionRepository.GetByIdAsync(id);
