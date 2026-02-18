@@ -597,7 +597,7 @@ Examples:
 
 ## JWT tokens
 
-JSON Web Token is a compact, self-contained token used to prove that a user is authenticated.
+JSON Web Token is a compact, self-contained token used to prove that a user is authenticated. After a user logs in, the server signs a token and sends it to the client, which sends it back with each request to authorize access without needing server-side session storage.
 
 In simple words: It's a digital ID card for the user.
 
