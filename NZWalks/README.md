@@ -595,51 +595,109 @@ Examples:
 
 
 
-## JWT tokens
+## JWT (JSON Web Token)
 
-JSON Web Token is a compact, self-contained token used to prove that a user is authenticated. After a user logs in, the server signs a token and sends it to the client, which sends it back with each request to authorize access without needing server-side session storage.
+JWT (JSON Web Token) is a compact, self-contained, and signed token format used to securely transmit information between parties. In authentication systems, it acts like a digital ID card for the user.
 
-In simple words: It's a digital ID card for the user.
+After a successful login, the server creates and signs a JWT and sends it to the client. The client includes this token in future requests to prove identity.
+
+> Important: JWT is a token format — not an authentication system itself.
+
+---
+
+## Why Do We Use JWT?
+
+### Without JWT (Classic Session-Based Auth)
+
+- Server stores session data in memory or a database
+- Client stores only a session ID (usually in a cookie)
+- Horizontal scaling requires shared session storage (e.g., Redis)
+- Server must look up session data on every request
+
+### With JWT (Stateless Auth)
+
+- Server does NOT store session state for access tokens
+- Token contains minimal identity & authorization claims
+- Server only verifies the token signature
+- Easier horizontal scaling
+- Common in APIs and microservices
+
+---
+
+## JWT Authentication Flow
+
+### Step 1: Login  
+Client sends credentials (email/password)
+
+### Step 2: Verification  
+Server verifies credentials
+
+### Step 3: Token Creation  
+Server creates and signs a JWT containing:
+- User ID
+- Roles / permissions
+- Expiration time
+- Standard claims (issuer, audience, etc.)
+
+### Step 4: Client Stores Token  
+The token can be stored:
+- In memory (safest for SPAs)
+- In HttpOnly secure cookies (recommended)
+- In LocalStorage (common but vulnerable to XSS)
+
+### Step 5: Client Sends Token  
+Client sends the token with each request:
+- Typically in the `Authorization` header  
 
 
-### Why do we use JWT?
-
-Without JWT (classic session)
-- Server stores session in memory
-- Doesn't scale well
-
-With JWT
-- Server does NOT store session
-- Token contains all needed info
-- Easy to scale
-
-
-### JWT flow
-
-Step 1: Login
-Step 2: Server verifies credentials
-Step 3: Server sends JWT to client
-Step 4: Client stores token
-- LocalStorage
-- SessionStorage
-- Memory
-Step 5: Client sends token with every request
-Step 6: Server validates token
-- Signature
+### Step 6: Server Validates Token  
+Server verifies:
+- Signature (token integrity)
 - Expiration
-- Claims
+- Claims (authorization data)
 
+If valid → request proceeds  
+If invalid → access denied
 
-### JWT vs Session
+---
 
-JWT is:
+## Access Tokens vs Refresh Tokens
+
+In production systems:
+
+### Access Token
+- Short-lived (e.g., 15 minutes)
+- Used to access protected resources
+
+### Refresh Token
+- Long-lived
+- Used to request a new access token
+- Usually stored securely (HttpOnly cookie or database)
+
+This improves security while keeping users logged in.
+
+---
+
+## JWT vs Session
+
+### JWT
 - Stateless
 - Stored on client
-- Scales well
-- Good for APIs
+- Easier horizontal scaling
+- Common for APIs & microservices
 
-Session is:
+### Session
 - Stateful
 - Stored on server
-- Harder to scale
-- Good for MVC apps
+- Requires shared storage for scaling
+- Common in traditional MVC web apps
+
+---
+
+## Security Notes
+
+- Never store sensitive data inside JWT
+- Use HTTPS always
+- Prefer short-lived access tokens
+- Protect against XSS and CSRF
+- Consider token revocation strategies if needed
