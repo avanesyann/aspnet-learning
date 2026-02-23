@@ -701,3 +701,30 @@ This improves security while keeping users logged in.
 - Prefer short-lived access tokens
 - Protect against XSS and CSRF
 - Consider token revocation strategies if needed
+
+
+
+## Image Upload
+
+Image upload is the process where a client (browser / mobile app) sends an image file to your backend server so it can be:
+
+- Stored
+- Processed
+- Linked to a database record
+- Returned later via URL
+
+### Where Is the Image Stored?
+
+There are 3 common approaches:
+
+- Store Image in File System (Most Common for Beginners)
+
+`wwwroot/images/myimage.jpg`
+
+- Store Image in Database (as byte[])
+
+`public byte[] Image { get; set; }`
+
+- Store in Cloud Storage (Production)
+
+`https://cdn.myapp.com/images/img123.jpg`
