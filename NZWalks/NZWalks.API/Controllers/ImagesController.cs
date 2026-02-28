@@ -29,6 +29,7 @@ namespace NZWalks.API.Controllers
                 };
 
                 // Use repository to upload image
+
             }
 
             return BadRequest(ModelState);
