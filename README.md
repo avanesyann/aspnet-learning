@@ -1,6 +1,6 @@
-## :blue_book: A collection of ASP.NET tutorial projects built while following tutorials. 
+## :blue_book: A collection of ASP.NET projects. 
 
-This repository contains my personal learning journey through the tutorials. 
+This repository contains my personal learning journey. 
 
 ## :file_folder: Structure
 
