@@ -7,5 +7,6 @@ namespace ContactMangerAPI.Repositories
     {
         Task<List<Contact>> GetAllAsync();
         Task<Contact?> GetByIdAsync(Guid id);
+        Task<Contact> CreateAsync(Contact contact);
     }
 }

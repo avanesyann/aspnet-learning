@@ -1,4 +1,5 @@
-﻿using ContactMangerAPI.Repositories;
+﻿using ContactMangerAPI.Models;
+using ContactMangerAPI.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,6 +30,13 @@ namespace ContactMangerAPI.Controllers
                 return NotFound();
 
             return Ok(contact);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] Contact contact)
+        {
+            var model = await _contactInterface.CreateAsync(contact);
+
+            return CreatedAtAction(nameof(GetById), new { id = model.Id }, model);
         }
     }
 }
