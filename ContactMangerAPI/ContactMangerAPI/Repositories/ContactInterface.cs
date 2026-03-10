@@ -20,6 +20,19 @@ namespace ContactMangerAPI.Repositories
             return contact;
         }
 
+        public async Task<Contact?> DeleteAsync(Guid id)
+        {
+            var contact = await _context.Contacts.FindAsync(id);
+
+            if (contact == null)
+                return null;
+
+            _context.Contacts.Remove(contact);
+            await _context.SaveChangesAsync();
+
+            return contact;
+        }
+
         public async Task<List<Contact>> GetAllAsync()
         {
             return await _context.Contacts.ToListAsync();

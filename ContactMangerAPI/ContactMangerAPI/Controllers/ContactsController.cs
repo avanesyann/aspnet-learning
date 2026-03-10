@@ -38,5 +38,16 @@ namespace ContactMangerAPI.Controllers
 
             return CreatedAtAction(nameof(GetById), new { id = model.Id }, model);
         }
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
+        {
+            var contact = await _contactInterface.DeleteAsync(id);
+
+            if (contact == null)
+                return NotFound();
+
+            return Ok(contact);
+        }
     }
 }
