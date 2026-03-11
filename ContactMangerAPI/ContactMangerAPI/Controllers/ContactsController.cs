@@ -49,5 +49,17 @@ namespace ContactMangerAPI.Controllers
 
             return Ok(contact);
         }
+
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] Contact contact)
+        {
+            var model = await _contactInterface.UpdateAsync(id, contact);
+
+            if (model == null)
+                return NotFound();
+
+            return Ok(model);
+        }
     }
 }
