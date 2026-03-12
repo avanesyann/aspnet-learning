@@ -1,4 +1,5 @@
 ﻿using ContactMangerAPI.Models;
+using ContactMangerAPI.Models.DTO;
 using ContactMangerAPI.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,22 @@ namespace ContactMangerAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _contactInterface.GetAllAsync());
+            var contacts = await _contactInterface.GetAllAsync();
+            var contactsDto = new List<ContactReadDto>();
+
+            foreach (var contact in contacts)
+            {
+                contactsDto.Add(new ContactReadDto
+                {
+                    Id = contact.Id,
+                    Name = contact.Name,
+                    Address = contact.Address,
+                    Email = contact.Email,
+                    Phone = contact.Phone,
+                });
+            }
+
+            return Ok(contactsDto);
         }
         [HttpGet]
         [Route("{id}")]
@@ -29,14 +45,40 @@ namespace ContactMangerAPI.Controllers
             if (contact == null)
                 return NotFound();
 
-            return Ok(contact);
+            var contactDto = new ContactReadDto
+            {
+                Id = contact.Id,
+                Name = contact.Name,
+                Address = contact.Address,
+                Email = contact.Email,
+                Phone = contact.Phone,
+            };
+
+            return Ok(contactDto);
         }
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Contact contact)
+        public async Task<IActionResult> Create([FromBody] ContactCreateDto contactCreateDto)
         {
-            var model = await _contactInterface.CreateAsync(contact);
+            var model = new Contact
+            {
+                Name = contactCreateDto.Name,
+                Address = contactCreateDto.Address,
+                Email = contactCreateDto.Email,
+                Phone = contactCreateDto.Phone,
+            };
 
-            return CreatedAtAction(nameof(GetById), new { id = model.Id }, model);
+            model = await _contactInterface.CreateAsync(model);
+
+            var contactDto = new ContactReadDto
+            {
+                Id = model.Id,
+                Name = model.Name,
+                Address = model.Address,
+                Email = model.Email,
+                Phone = model.Phone,
+            };
+
+            return CreatedAtAction(nameof(GetById), new { id = contactDto.Id }, contactDto);
         }
         [HttpDelete]
         [Route("{id}")]
@@ -47,19 +89,45 @@ namespace ContactMangerAPI.Controllers
             if (contact == null)
                 return NotFound();
 
-            return Ok(contact);
+            var contactDto = new ContactReadDto
+            {
+                Id = contact.Id,
+                Name = contact.Name,
+                Address = contact.Address,
+                Email = contact.Email,
+                Phone = contact.Phone,
+            };
+
+            return Ok(contactDto);
         }
 
         [HttpPut]
         [Route("{id}")]
-        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] Contact contact)
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] ContactCreateDto contactCreateDto)
         {
-            var model = await _contactInterface.UpdateAsync(id, contact);
+            var model = new Contact
+            {
+                Name = contactCreateDto.Name,
+                Address = contactCreateDto.Address,
+                Email = contactCreateDto.Email,
+                Phone = contactCreateDto.Phone,
+            };
+
+            model = await _contactInterface.UpdateAsync(id, model);
 
             if (model == null)
                 return NotFound();
 
-            return Ok(model);
+            var contactDto = new ContactReadDto
+            {
+                Id = model.Id,
+                Name = model.Name,
+                Address = model.Address,
+                Email = model.Email,
+                Phone = model.Phone,
+            };
+
+            return Ok(contactDto);
         }
     }
 }
