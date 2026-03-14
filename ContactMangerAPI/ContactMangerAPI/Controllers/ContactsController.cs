@@ -1,4 +1,5 @@
-﻿using ContactMangerAPI.Models;
+﻿using AutoMapper;
+using ContactMangerAPI.Models;
 using ContactMangerAPI.Models.DTO;
 using ContactMangerAPI.Repositories;
 using Microsoft.AspNetCore.Http;
@@ -11,28 +12,19 @@ namespace ContactMangerAPI.Controllers
     public class ContactsController : ControllerBase
     {
         private readonly IContactInterface _contactInterface;
-        public ContactsController(IContactInterface contactInterface)
+        private readonly IMapper _mapper;
+        public ContactsController(IContactInterface contactInterface, IMapper mapper)
         {
             _contactInterface = contactInterface;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var contacts = await _contactInterface.GetAllAsync();
-            var contactsDto = new List<ContactReadDto>();
 
-            foreach (var contact in contacts)
-            {
-                contactsDto.Add(new ContactReadDto
-                {
-                    Id = contact.Id,
-                    Name = contact.Name,
-                    Address = contact.Address,
-                    Email = contact.Email,
-                    Phone = contact.Phone,
-                });
-            }
+            var contactsDto = _mapper.Map<List<ContactReadDto>>(contacts);
 
             return Ok(contactsDto);
         }
@@ -45,41 +37,20 @@ namespace ContactMangerAPI.Controllers
             if (contact == null)
                 return NotFound();
 
-            var contactDto = new ContactReadDto
-            {
-                Id = contact.Id,
-                Name = contact.Name,
-                Address = contact.Address,
-                Email = contact.Email,
-                Phone = contact.Phone,
-            };
-
-            return Ok(contactDto);
+            return Ok(_mapper.Map<ContactReadDto>(contact));
         }
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ContactCreateDto contactCreateDto)
         {
-            var model = new Contact
-            {
-                Name = contactCreateDto.Name,
-                Address = contactCreateDto.Address,
-                Email = contactCreateDto.Email,
-                Phone = contactCreateDto.Phone,
-            };
+            var model = _mapper.Map<Contact>(contactCreateDto);
 
             model = await _contactInterface.CreateAsync(model);
 
-            var contactDto = new ContactReadDto
-            {
-                Id = model.Id,
-                Name = model.Name,
-                Address = model.Address,
-                Email = model.Email,
-                Phone = model.Phone,
-            };
+            var contactDto = _mapper.Map<ContactReadDto>(model);
 
             return CreatedAtAction(nameof(GetById), new { id = contactDto.Id }, contactDto);
         }
+
         [HttpDelete]
         [Route("{id}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
@@ -89,14 +60,7 @@ namespace ContactMangerAPI.Controllers
             if (contact == null)
                 return NotFound();
 
-            var contactDto = new ContactReadDto
-            {
-                Id = contact.Id,
-                Name = contact.Name,
-                Address = contact.Address,
-                Email = contact.Email,
-                Phone = contact.Phone,
-            };
+            var contactDto = _mapper.Map<ContactReadDto>(contact);
 
             return Ok(contactDto);
         }
@@ -105,27 +69,14 @@ namespace ContactMangerAPI.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] ContactCreateDto contactCreateDto)
         {
-            var model = new Contact
-            {
-                Name = contactCreateDto.Name,
-                Address = contactCreateDto.Address,
-                Email = contactCreateDto.Email,
-                Phone = contactCreateDto.Phone,
-            };
+            var model = _mapper.Map<Contact>(contactCreateDto);
 
             model = await _contactInterface.UpdateAsync(id, model);
 
             if (model == null)
                 return NotFound();
 
-            var contactDto = new ContactReadDto
-            {
-                Id = model.Id,
-                Name = model.Name,
-                Address = model.Address,
-                Email = model.Email,
-                Phone = model.Phone,
-            };
+            var contactDto = _mapper.Map<ContactReadDto>(model);
 
             return Ok(contactDto);
         }
