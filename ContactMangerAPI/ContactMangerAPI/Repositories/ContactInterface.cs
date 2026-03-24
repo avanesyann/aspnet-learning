@@ -33,9 +33,18 @@ namespace ContactMangerAPI.Repositories
             return contact;
         }
 
-        public async Task<List<Contact>> GetAllAsync()
+        public async Task<List<Contact>> GetAllAsync(string? filterOn, string? filterQuery)
         {
-            return await _context.Contacts.ToListAsync();
+            var contacts = _context.Contacts.AsQueryable();
+
+            // Filter
+            if (!string.IsNullOrWhiteSpace(filterOn) && !string.IsNullOrWhiteSpace(filterQuery))
+            {
+                if (filterOn.Equals("Address", StringComparison.OrdinalIgnoreCase))
+                    contacts = contacts.Where(x => x.Address.Contains(filterQuery));
+            }
+
+            return await contacts.ToListAsync();
         }
 
         public async Task<Contact?> GetByIdAsync(Guid id)

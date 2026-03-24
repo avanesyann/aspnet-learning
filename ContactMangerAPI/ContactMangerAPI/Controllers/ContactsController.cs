@@ -20,9 +20,10 @@ namespace ContactMangerAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        // GET: api/contacts?filterOn=Address&filterQuery=Florida
+        public async Task<IActionResult> GetAll([FromQuery] string? filterOn = null, [FromQuery] string? filterQuery = null)
         {
-            var contacts = await _contactInterface.GetAllAsync();
+            var contacts = await _contactInterface.GetAllAsync(filterOn, filterQuery);
 
             var contactsDto = _mapper.Map<List<ContactReadDto>>(contacts);
 
