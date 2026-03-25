@@ -33,7 +33,8 @@ namespace ContactMangerAPI.Repositories
             return contact;
         }
 
-        public async Task<List<Contact>> GetAllAsync(string? filterOn, string? filterQuery)
+        public async Task<List<Contact>> GetAllAsync(string? filterOn, string? filterQuery, 
+            string? sortBy, bool isAscending)
         {
             var contacts = _context.Contacts.AsQueryable();
 
@@ -42,6 +43,19 @@ namespace ContactMangerAPI.Repositories
             {
                 if (filterOn.Equals("Address", StringComparison.OrdinalIgnoreCase))
                     contacts = contacts.Where(x => x.Address.Contains(filterQuery));
+            }
+
+            // Sort
+            if (!string.IsNullOrWhiteSpace(sortBy))
+            {
+                if (sortBy.Equals("Name", StringComparison.OrdinalIgnoreCase))
+                {
+                    contacts = isAscending ? contacts.OrderBy(x => x.Name) : contacts.OrderByDescending(x => x.Name);
+                }
+                else if (sortBy.Equals("Address", StringComparison.OrdinalIgnoreCase))
+                {
+                    contacts = isAscending ? contacts.OrderBy(x => x.Address) : contacts.OrderByDescending(x => x.Address);
+                }
             }
 
             return await contacts.ToListAsync();
