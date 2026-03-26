@@ -5,7 +5,8 @@ namespace ContactMangerAPI.Repositories
 {
     public interface IContactInterface
     {
-        Task<List<Contact>> GetAllAsync(string? filterOn, string? filterQuery, string? sortBy, bool isAscending);
+        Task<List<Contact>> GetAllAsync(string? filterOn, string? filterQuery, 
+            string? sortBy, bool isAscending, int pageNumber, int pageSize);
         Task<Contact?> GetByIdAsync(Guid id);
         Task<Contact> CreateAsync(Contact contact);
         Task<Contact?> UpdateAsync(Guid id, Contact contact);

@@ -20,11 +20,12 @@ namespace ContactMangerAPI.Controllers
         }
 
         [HttpGet]
-        // GET: api/contacts?filterOn=Address&filterQuery=Florida
+        // GET: api/contacts?filterOn=Address&filterQuery=Florida&sortBy=Name&isAscending=True&pageNumber=1&pageSize=10
         public async Task<IActionResult> GetAll([FromQuery] string? filterOn = null, [FromQuery] string? filterQuery = null,
-            [FromQuery] string? sortBy = null, [FromQuery] bool? isAscending = true)
+            [FromQuery] string? sortBy = null, [FromQuery] bool? isAscending = true,
+            [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 1000)
         {
-            var contacts = await _contactInterface.GetAllAsync(filterOn, filterQuery, sortBy, isAscending ?? true);
+            var contacts = await _contactInterface.GetAllAsync(filterOn, filterQuery, sortBy, isAscending ?? true, pageNumber, pageSize);
 
             var contactsDto = _mapper.Map<List<ContactReadDto>>(contacts);
 

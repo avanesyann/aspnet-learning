@@ -34,7 +34,7 @@ namespace ContactMangerAPI.Repositories
         }
 
         public async Task<List<Contact>> GetAllAsync(string? filterOn, string? filterQuery, 
-            string? sortBy, bool isAscending)
+            string? sortBy, bool isAscending, int pageNumber, int pageSize)
         {
             var contacts = _context.Contacts.AsQueryable();
 
@@ -58,7 +58,10 @@ namespace ContactMangerAPI.Repositories
                 }
             }
 
-            return await contacts.ToListAsync();
+            // Paginate
+            var skipContacts = (pageNumber - 1) * pageSize;
+
+            return await contacts.Skip(skipContacts).Take(pageSize).ToListAsync();
         }
 
         public async Task<Contact?> GetByIdAsync(Guid id)
