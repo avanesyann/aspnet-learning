@@ -32,7 +32,7 @@ namespace NZWalks.API.Controllers
 
         // GET: https://localhost:7192/api/Regions
         [HttpGet]
-        [Authorize(Roles = "Reader,Writer")]
+        // [Authorize(Roles = "Reader,Writer")]
         public async Task<IActionResult> GetAll()
         {
             _logger.LogInformation("GetAllRegions Action Method was invoked");
