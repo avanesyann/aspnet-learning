@@ -35,31 +35,41 @@ namespace NZWalks.API.Controllers
         // [Authorize(Roles = "Reader,Writer")]
         public async Task<IActionResult> GetAll()
         {
-            _logger.LogInformation("GetAllRegions Action Method was invoked");
+            try
+            {
+                throw new Exception("This is a custom exception.");
 
-            // Get data from database (domain models)
-            var regionsDomain = await _regionRepository.GetAllAsync();
+                // Get data from database (domain models)
+                var regionsDomain = await _regionRepository.GetAllAsync();
 
-            // Map domain models to DTOs
-            //var regionsDto = new List<RegionReadDto>();
-            //foreach (var region in regionsDomain)
-            //{
-            //    regionsDto.Add(new RegionReadDto()
-            //    {
-            //        Id = region.Id,
-            //        Code = region.Code,
-            //        Name = region.Name,
-            //        ImageUrl = region.ImageUrl,
-            //    });
-            //}
+                _logger.LogInformation("GetAllRegions Action Method was invoked");
 
-            // Map domain models to DTOs
-            var regionsDto = _mapper.Map<List<RegionReadDto>>(regionsDomain);
+                // Map domain models to DTOs
+                //var regionsDto = new List<RegionReadDto>();
+                //foreach (var region in regionsDomain)
+                //{
+                //    regionsDto.Add(new RegionReadDto()
+                //    {
+                //        Id = region.Id,
+                //        Code = region.Code,
+                //        Name = region.Name,
+                //        ImageUrl = region.ImageUrl,
+                //    });
+                //}
 
-            _logger.LogInformation($"Finished GetAllRegions request with data: {JsonSerializer.Serialize(regionsDto)}");
+                // Map domain models to DTOs
+                var regionsDto = _mapper.Map<List<RegionReadDto>>(regionsDomain);
 
-            // Return DTOs
-            return Ok(regionsDto);
+                _logger.LogInformation($"Finished GetAllRegions request with data: {JsonSerializer.Serialize(regionsDto)}");
+
+                // Return DTOs
+                return Ok(regionsDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
         }
         
         // GET: https://localhost:7192/api/Regions/{id}
