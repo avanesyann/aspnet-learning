@@ -44,6 +44,10 @@ namespace NZWalks.API.Controllers
 
                 _logger.LogInformation("GetAllRegions Action Method was invoked");
 
+                _logger.LogWarning("This is a warning log.");
+
+                _logger.LogError("this is an error log.");
+
                 // Map domain models to DTOs
                 //var regionsDto = new List<RegionReadDto>();
                 //foreach (var region in regionsDomain)
