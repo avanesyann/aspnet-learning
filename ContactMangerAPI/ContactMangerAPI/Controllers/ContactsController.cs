@@ -13,10 +13,12 @@ namespace ContactMangerAPI.Controllers
     {
         private readonly IContactInterface _contactInterface;
         private readonly IMapper _mapper;
-        public ContactsController(IContactInterface contactInterface, IMapper mapper)
+        private readonly ILogger<ContactsController> _logger;
+        public ContactsController(IContactInterface contactInterface, IMapper mapper, ILogger<ContactsController> logger)
         {
             _contactInterface = contactInterface;
             _mapper = mapper;
+            _logger = logger;
         }
 
         [HttpGet]
