@@ -27,6 +27,8 @@ namespace ContactMangerAPI.Controllers
             [FromQuery] string? sortBy = null, [FromQuery] bool? isAscending = true,
             [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 1000)
         {
+            _logger.LogInformation("GetAllContacts action method was invoked.");
+
             var contacts = await _contactInterface.GetAllAsync(filterOn, filterQuery, sortBy, isAscending ?? true, pageNumber, pageSize);
 
             var contactsDto = _mapper.Map<List<ContactReadDto>>(contacts);
