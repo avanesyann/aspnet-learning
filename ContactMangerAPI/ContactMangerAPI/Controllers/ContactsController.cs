@@ -28,6 +28,8 @@ namespace ContactMangerAPI.Controllers
             [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 1000)
         {
             _logger.LogInformation("GetAllContacts action method was invoked.");
+            _logger.LogWarning("This is a warning log.");
+            _logger.LogError("This is an error log.");
 
             var contacts = await _contactInterface.GetAllAsync(filterOn, filterQuery, sortBy, isAscending ?? true, pageNumber, pageSize);
 
