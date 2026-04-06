@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using NZWalks.API.Models.Domain;
 using NZWalks.API.Models.DTO;
 using NZWalks.API.Repositories;
+using System.Net;
 
 namespace NZWalks.API.Controllers
 {
@@ -45,10 +46,19 @@ namespace NZWalks.API.Controllers
             [FromQuery] string? sortBy = null, [FromQuery] bool? isAscending = true, 
             [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 1000)
         {
-            var walksDomain = await _repository.GetAllAsync(filterOn, filterQuery, sortBy, isAscending ?? true, pageNumber, pageSize);
+            try
+            {
+                throw new Exception("This is the error.");
 
-            // Map Domain Model to Dto
-            return Ok(_mapper.Map <List<WalkReadDto>>(walksDomain));
+                var walksDomain = await _repository.GetAllAsync(filterOn, filterQuery, sortBy, isAscending ?? true, pageNumber, pageSize);
+
+                // Map Domain Model to Dto
+                return Ok(_mapper.Map<List<WalkReadDto>>(walksDomain));
+            }
+            catch (Exception ex)
+            {
+                return Problem("Something went wrong", null, (int)HttpStatusCode.InternalServerError);
+            }
         }
 
         // GET Walk by Id
