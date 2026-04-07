@@ -46,19 +46,10 @@ namespace NZWalks.API.Controllers
             [FromQuery] string? sortBy = null, [FromQuery] bool? isAscending = true, 
             [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 1000)
         {
-            try
-            {
-                throw new Exception("This is the error.");
+            var walksDomain = await _repository.GetAllAsync(filterOn, filterQuery, sortBy, isAscending ?? true, pageNumber, pageSize);
 
-                var walksDomain = await _repository.GetAllAsync(filterOn, filterQuery, sortBy, isAscending ?? true, pageNumber, pageSize);
-
-                // Map Domain Model to Dto
-                return Ok(_mapper.Map<List<WalkReadDto>>(walksDomain));
-            }
-            catch (Exception ex)
-            {
-                return Problem("Something went wrong", null, (int)HttpStatusCode.InternalServerError);
-            }
+            // Map Domain Model to Dto
+            return Ok(_mapper.Map<List<WalkReadDto>>(walksDomain));
         }
 
         // GET Walk by Id
