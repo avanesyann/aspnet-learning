@@ -728,3 +728,9 @@ There are 3 common approaches:
 - Store in Cloud Storage (Production)
 
 `https://cdn.myapp.com/images/img123.jpg`
+
+
+
+## Logging
+
+Logging is the process of recording application events, errors, and information to help monitor and debug the system.
