@@ -4,6 +4,7 @@ using ContactMangerAPI.Models.DTO;
 using ContactMangerAPI.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace ContactMangerAPI.Controllers
 {
@@ -27,15 +28,21 @@ namespace ContactMangerAPI.Controllers
             [FromQuery] string? sortBy = null, [FromQuery] bool? isAscending = true,
             [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 1000)
         {
-            _logger.LogInformation("GetAllContacts action method was invoked.");
-            _logger.LogWarning("This is a warning log.");
-            _logger.LogError("This is an error log.");
+            try
+            {
+                throw new Exception("This is an error.");
 
-            var contacts = await _contactInterface.GetAllAsync(filterOn, filterQuery, sortBy, isAscending ?? true, pageNumber, pageSize);
+                var contacts = await _contactInterface.GetAllAsync(filterOn, filterQuery, sortBy, isAscending ?? true, pageNumber, pageSize);
 
-            var contactsDto = _mapper.Map<List<ContactReadDto>>(contacts);
+                var contactsDto = _mapper.Map<List<ContactReadDto>>(contacts);
 
-            return Ok(contactsDto);
+                return Ok(contactsDto);
+            }
+            catch (Exception ex)
+            {
+                // Log this exception
+                return Problem("Something went wrong", null, (int)HttpStatusCode.InternalServerError);
+            }
         }
         [HttpGet]
         [Route("{id}")]
