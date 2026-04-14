@@ -9,5 +9,19 @@
             _logger = logger;
             _next = next;
         }
+
+        public async Task InvokeAsync(HttpContext httpContext)
+        {
+            try
+            {
+                await _next(httpContext);
+            }
+            catch (Exception ex)
+            {
+                // Log this exception
+
+                // Return a custom error response
+            }
+        }
     }
 }
