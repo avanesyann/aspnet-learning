@@ -1,5 +1,6 @@
 using ContactMangerAPI.Data;
 using ContactMangerAPI.Mappings;
+using ContactMangerAPI.Middlewares;
 using ContactMangerAPI.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,6 +39,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.UseHttpsRedirection();
 
