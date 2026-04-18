@@ -734,3 +734,29 @@ There are 3 common approaches:
 ## Logging
 
 Logging is the process of recording application events, errors, and information to help monitor and debug the system.
+
+
+
+## Versioning
+
+API versioning means maintaining multiple versions of the same API so older clients don’t break when the API changes.
+
+
+### Versioning methods
+
+1. URL versioning
+
+/api/v1/todos
+/api/v2/todos
+
+2. Query string versioning
+
+/api/todos?api-version=1.0
+
+3. Header versioning
+
+api-version: 2.0
+
+4. Media type versioning
+
+Accept: application/json;version=2
