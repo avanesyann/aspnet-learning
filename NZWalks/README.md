@@ -746,17 +746,25 @@ API versioning means maintaining multiple versions of the same API so older clie
 
 1. URL versioning
 
+Embeds the version directly in the request path
+
 /api/v1/todos
 /api/v2/todos
 
 2. Query string versioning
 
+Appends the version as a parameter
+
 /api/todos?api-version=1.0
 
 3. Header versioning
 
+Uses a custom HTTP header
+
 api-version: 2.0
 
 4. Media type versioning
+
+Passes the version via the `Accept` or `Content-Type` header
 
 Accept: application/json;version=2
