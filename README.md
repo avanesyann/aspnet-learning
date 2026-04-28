@@ -1,7 +1,7 @@
 ## :blue_book: A collection of ASP.NET projects. 
 
-This repository contains my personal learning journey. 
+This repository contains a collection of projects developed while learning and exploring ASP.NET concepts.
 
 ## :file_folder: Structure
 
-All content is organized under the `aspnet-learning` folder.
+All projects are organized within the `aspnet-learning` directory for easy navigation.
