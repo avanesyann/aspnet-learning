@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ExpenseTracker.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseTracker.Data
 {
@@ -8,5 +9,7 @@ namespace ExpenseTracker.Data
         {
 
         }
+
+        public DbSet<Expense> Expenses { get; set; }
     }
 }
