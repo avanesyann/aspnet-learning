@@ -11,7 +11,7 @@ namespace ExpenseTracker.Models
         [Range(0.01, double.MaxValue)]
         public decimal Amount { get; set; }
         [Required]
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } = DateTime.Now;
         public string? Category { get; set; }
     }
 }
