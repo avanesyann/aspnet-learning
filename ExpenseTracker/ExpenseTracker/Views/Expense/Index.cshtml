@@ -1,2 +1,27 @@
-﻿<h1>Expenses</h1>
+﻿@model List<Expense>
+
+<h1>Expenses</h1>
 <hr />
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>
+                Expense
+            </th>
+            <th>
+                Amount
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach(var obj in Model.OrderByDescending(u => u.Amount))
+        {
+            <tr>
+                <td>@obj.Description</td>
+                <td>@obj.Amount</td>
+            </tr>
+        }
+    </tbody>
+</table>

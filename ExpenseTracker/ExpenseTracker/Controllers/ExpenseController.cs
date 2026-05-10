@@ -17,7 +17,7 @@ namespace ExpenseTracker.Controllers
         {
             List<Expense> expenses = _context.Expenses.ToList();
 
-            return View();
+            return View(expenses);
         }
     }
 }
