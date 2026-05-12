@@ -1,27 +1,40 @@
 ﻿@model List<Expense>
 
-<h1>Expenses</h1>
-<hr />
+<div class="container">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">
+                Expenses
+            </h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="" asp-action="" class="btn btn-primary">
+                Add a new Expense
+            </a>
+        </div>
+    </div>
 
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>
-                Expense
-            </th>
-            <th>
-                Amount
-            </th>
-        </tr>
-    </thead>
-
-    <tbody>
-        @foreach(var obj in Model.OrderByDescending(u => u.Amount))
-        {
+    <table class="table table-bordered table-striped">
+        <thead>
             <tr>
-                <td>@obj.Description</td>
-                <td>@obj.Amount</td>
+                <th>
+                    Expense
+                </th>
+                <th>
+                    Amount
+                </th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+
+        <tbody>
+            @foreach(var obj in Model.OrderByDescending(u => u.Amount))
+            {
+                <tr>
+                    <td>@obj.Description</td>
+                    <td>@obj.Amount</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
