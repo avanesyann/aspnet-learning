@@ -1,6 +1,7 @@
 ﻿using ExpenseTracker.Data;
 using ExpenseTracker.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace ExpenseTracker.Controllers
 {
@@ -18,6 +19,11 @@ namespace ExpenseTracker.Controllers
             List<Expense> expenses = _context.Expenses.ToList();
 
             return View(expenses);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
         }
     }
 }
