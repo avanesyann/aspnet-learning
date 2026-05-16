@@ -25,5 +25,14 @@ namespace ExpenseTracker.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public IActionResult Create(Expense expense)
+        {
+            _context.Expenses.Add(expense);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
     }
 }
