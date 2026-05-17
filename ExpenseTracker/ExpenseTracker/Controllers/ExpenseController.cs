@@ -29,10 +29,15 @@ namespace ExpenseTracker.Controllers
         [HttpPost]
         public IActionResult Create(Expense expense)
         {
-            _context.Expenses.Add(expense);
-            _context.SaveChanges();
+            if (ModelState.IsValid)
+            {
+                _context.Expenses.Add(expense);
+                _context.SaveChanges();
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+
+            return View();
         }
     }
 }

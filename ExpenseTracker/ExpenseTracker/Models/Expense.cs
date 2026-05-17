@@ -6,6 +6,7 @@ namespace ExpenseTracker.Models
     {
         public int Id { get; set; }
         [Required]
+        [MaxLength(30)]
         public string Description { get; set; } = null!;
         [Required]
         [Range(0.01, double.MaxValue)]
