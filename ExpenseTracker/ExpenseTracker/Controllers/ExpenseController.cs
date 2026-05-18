@@ -29,6 +29,10 @@ namespace ExpenseTracker.Controllers
         [HttpPost]
         public IActionResult Create(Expense expense)
         {
+            if (expense.Description == expense.Amount.ToString())
+            {
+                ModelState.AddModelError("description", "Both fields cannot match.");
+            }
             if (ModelState.IsValid)
             {
                 _context.Expenses.Add(expense);
