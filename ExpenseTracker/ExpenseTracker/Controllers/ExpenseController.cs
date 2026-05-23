@@ -2,6 +2,7 @@
 using ExpenseTracker.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel;
 
 namespace ExpenseTracker.Controllers
 {
@@ -42,6 +43,19 @@ namespace ExpenseTracker.Controllers
             }
 
             return View();
+        }
+
+        public IActionResult Edit(int id)
+        {
+            if (id == 0 || id == null)
+                return NotFound();
+
+            Expense dbExpense = _context.Expenses.FirstOrDefault();
+            if (dbExpense == null)
+                return NotFound();
+
+            
+            return View(dbExpense);
         }
     }
 }
