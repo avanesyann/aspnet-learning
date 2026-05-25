@@ -50,7 +50,10 @@ namespace ExpenseTracker.Controllers
             if (id == 0 || id == null)
                 return NotFound();
 
-            Expense dbExpense = _context.Expenses.FirstOrDefault();
+            Expense? dbExpense = _context.Expenses.FirstOrDefault(u => u.Id == id);
+            // Expense? dbExpense2 = _context.Expenses.Find(id);
+            // Expense? dbExpense3 = _context.Expenses.Where(u => u.Id == id).FirstOrDefault();
+            
             if (dbExpense == null)
                 return NotFound();
 
