@@ -60,5 +60,19 @@ namespace ExpenseTracker.Controllers
             
             return View(dbExpense);
         }
+
+        [HttpPost]
+        public IActionResult Edit(Expense expense)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Expenses.Update(expense);
+                _context.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+
+            return View();
+        }
     }
 }
