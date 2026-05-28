@@ -45,7 +45,7 @@ namespace ExpenseTracker.Controllers
             return View();
         }
 
-        public IActionResult Edit(int id)
+        public IActionResult Edit(int? id)
         {
             if (id == 0 || id == null)
                 return NotFound();
@@ -73,6 +73,35 @@ namespace ExpenseTracker.Controllers
             }
 
             return View();
+        }
+        public IActionResult Delete(int? id)
+        {
+            if (id == 0 || id == null)
+                return NotFound();
+
+            Expense? dbExpense = _context.Expenses.FirstOrDefault(u => u.Id == id);
+
+            if (dbExpense == null)
+                return NotFound();
+
+
+            return View(dbExpense);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeletePOST(int? id)
+        {
+            Expense? expense = _context.Expenses.FirstOrDefault(u => u.Id == id);
+
+            if (expense == null)
+            {
+                return NotFound();
+            }
+
+            _context.Expenses.Remove(expense);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
         }
     }
 }
