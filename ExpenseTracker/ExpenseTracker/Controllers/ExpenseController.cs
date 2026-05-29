@@ -39,6 +39,8 @@ namespace ExpenseTracker.Controllers
                 _context.Expenses.Add(expense);
                 _context.SaveChanges();
 
+                TempData["success"] = "Expense successfully created!";
+
                 return RedirectToAction("Index");
             }
 
@@ -68,6 +70,8 @@ namespace ExpenseTracker.Controllers
             {
                 _context.Expenses.Update(expense);
                 _context.SaveChanges();
+
+                TempData["success"] = "Expense successfully edited!";
 
                 return RedirectToAction("Index");
             }
@@ -100,6 +104,8 @@ namespace ExpenseTracker.Controllers
 
             _context.Expenses.Remove(expense);
             _context.SaveChanges();
+
+            TempData["success"] = "Expense successfully deleted!";
 
             return RedirectToAction("Index");
         }
