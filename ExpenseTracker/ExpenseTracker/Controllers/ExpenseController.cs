@@ -39,7 +39,7 @@ namespace ExpenseTracker.Controllers
                 _context.Expenses.Add(expense);
                 _context.SaveChanges();
 
-                TempData["success"] = "Expense successfully created!";
+                TempData["success"] = "Expense created successfully!";
 
                 return RedirectToAction("Index");
             }
@@ -71,7 +71,7 @@ namespace ExpenseTracker.Controllers
                 _context.Expenses.Update(expense);
                 _context.SaveChanges();
 
-                TempData["success"] = "Expense successfully edited!";
+                TempData["success"] = "Expense edited successfully!";
 
                 return RedirectToAction("Index");
             }
@@ -105,7 +105,7 @@ namespace ExpenseTracker.Controllers
             _context.Expenses.Remove(expense);
             _context.SaveChanges();
 
-            TempData["success"] = "Expense successfully deleted!";
+            TempData["success"] = "Expense deleted successfully!";
 
             return RedirectToAction("Index");
         }
