@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace ExpenseTracker.Migrations
+namespace ExpenseTracker.DataAccess.Migrations
 {
     /// <inheritdoc />
     public partial class AddExpensesTable : Migration

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace ExpenseTracker.Migrations
+namespace ExpenseTracker.DataAccess.Migrations
 {
     /// <inheritdoc />
     public partial class SeedExpensesTable : Migration
