@@ -16,4 +16,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ExpenseTracker.DataAccess\ExpenseTracker.DataAccess.csproj" />
+  </ItemGroup>
+
 </Project>

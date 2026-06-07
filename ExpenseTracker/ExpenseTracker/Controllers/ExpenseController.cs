@@ -1,4 +1,4 @@
-﻿using ExpenseTracker.Data;
+﻿using ExpenseTracker.DataAccess.Data;
 using ExpenseTracker.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
