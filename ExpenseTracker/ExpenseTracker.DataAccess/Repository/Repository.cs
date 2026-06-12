@@ -13,21 +13,26 @@ namespace ExpenseTracker.DataAccess.Repository
     public class Repository<T> : IRepository<T> where T : class
     {
         private readonly ApplicationDbContext _context;
+        internal DbSet<T> dbSet;
 
         public Repository(ApplicationDbContext context)
         {
             _context = context;
-
+            dbSet = _context.Set<T>();
+            // _context.Expenses == dbSet
         }
 
         public void Add(T entity)
         {
-            _context.Add(entity);
+            dbSet.Add(entity);
         }
 
         public T Get(Expression<Func<T, bool>> filter)
         {
-            throw new NotImplementedException();
+            IQueryable<T> query = dbSet;
+            query = query.Where(filter);
+
+            return query.FirstOrDefault();
         }
 
         public IEnumerable<T> GetAll()
