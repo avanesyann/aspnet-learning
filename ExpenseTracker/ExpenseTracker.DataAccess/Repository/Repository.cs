@@ -49,7 +49,7 @@ namespace ExpenseTracker.DataAccess.Repository
 
         public void RemoveRange(IEnumerable<T> entities)
         {
-            throw new NotImplementedException();
+            dbSet.RemoveRange(entities);
         }
     }
 }
