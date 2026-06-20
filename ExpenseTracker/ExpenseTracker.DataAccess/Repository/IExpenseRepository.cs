@@ -10,6 +10,5 @@ namespace ExpenseTracker.DataAccess.Repository
     public interface IExpenseRepository : IRepository<Expense>
     {
         void Update(Expense expense);
-        void Save();
     }
 }

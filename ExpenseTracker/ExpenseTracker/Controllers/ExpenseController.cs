@@ -9,16 +9,16 @@ namespace ExpenseTracker.Controllers
 {
     public class ExpenseController : Controller
     {
-        private readonly IExpenseRepository _expenseRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public ExpenseController(IExpenseRepository expenseRepository)
+        public ExpenseController(UnitOfWork unitOfWork)
         {
-            _expenseRepository = expenseRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
         {
-            List<Expense> expenses = _expenseRepository.GetAll().ToList();
+            List<Expense> expenses = _unitOfWork.ExpenseRepository.GetAll().ToList();
 
             return View(expenses);
         }
@@ -37,8 +37,8 @@ namespace ExpenseTracker.Controllers
             }
             if (ModelState.IsValid)
             {
-                _expenseRepository.Add(expense);
-                _expenseRepository.Save();
+                _unitOfWork.ExpenseRepository.Add(expense);
+                _unitOfWork.Save();
 
                 TempData["success"] = "Expense created successfully!";
 
@@ -53,7 +53,7 @@ namespace ExpenseTracker.Controllers
             if (id == 0 || id == null)
                 return NotFound();
 
-            Expense? dbExpense = _expenseRepository.Get(u => u.Id == id);
+            Expense? dbExpense = _unitOfWork.ExpenseRepository.Get(u => u.Id == id);
             // Expense? dbExpense2 = _context.Expenses.Find(id);
             // Expense? dbExpense3 = _context.Expenses.Where(u => u.Id == id).FirstOrDefault();
             
@@ -69,8 +69,8 @@ namespace ExpenseTracker.Controllers
         {
             if (ModelState.IsValid)
             {
-                _expenseRepository.Update(expense);
-                _expenseRepository.Save();
+                _unitOfWork.ExpenseRepository.Update(expense);
+                _unitOfWork.Save();
 
                 TempData["success"] = "Expense edited successfully!";
 
@@ -84,7 +84,7 @@ namespace ExpenseTracker.Controllers
             if (id == 0 || id == null)
                 return NotFound();
 
-            Expense? dbExpense = _expenseRepository.Get(u => u.Id == id);
+            Expense? dbExpense = _unitOfWork.ExpenseRepository.Get(u => u.Id == id);
 
             if (dbExpense == null)
                 return NotFound();
@@ -96,15 +96,15 @@ namespace ExpenseTracker.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeletePOST(int? id)
         {
-            Expense? expense = _expenseRepository.Get(u => u.Id == id);
+            Expense? expense = _unitOfWork.ExpenseRepository.Get(u => u.Id == id);
 
             if (expense == null)
             {
                 return NotFound();
             }
 
-            _expenseRepository.Remove(expense);
-            _expenseRepository.Save();
+            _unitOfWork.ExpenseRepository.Remove(expense);
+            _unitOfWork.Save();
 
             TempData["success"] = "Expense deleted successfully!";
 
