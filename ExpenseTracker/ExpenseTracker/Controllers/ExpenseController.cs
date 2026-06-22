@@ -11,7 +11,7 @@ namespace ExpenseTracker.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public ExpenseController(UnitOfWork unitOfWork)
+        public ExpenseController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
