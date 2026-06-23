@@ -5,8 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel;
 
-namespace ExpenseTracker.Controllers
+namespace ExpenseTracker.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class ExpenseController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

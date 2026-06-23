@@ -2,8 +2,9 @@ using System.Diagnostics;
 using ExpenseTracker.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ExpenseTracker.Controllers
+namespace ExpenseTracker.Areas.User.Controllers
 {
+    [Area("User")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
